@@ -1,29 +1,29 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
-
 ### What is this repository for? ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+Jeu de Reversi pour le projet de representation de connaisances
 
 ### How do I get set up? ###
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
 * Deployment instructions
-
-### Contribution guidelines ###
+Lancez le projet et ... 
 
 * Writing tests
 * Code review
 * Other guidelines
 
-### Who do I talk to? ###
+### Github link ###
 
-* Repo owner or admin
-* Other community or team contact
+https://github.com/kaysou/L3_reversi
+
+### Contribution guidelines ###
+Séance 1 :
+	Yoan FATH et Jonathan SCHMITT
+	- Mise en place du projet
+	- Initialisation du depôt github
+	- Mise en place du jeu et affichage
+	- Mise en place des états sans successeurs
+	- Enumération de positions pour faciliter le placement des coups
+
+Séance 2 :
