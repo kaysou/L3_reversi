@@ -14,6 +14,10 @@ public class Jeu {
 	private Joueur j2;
 	private int taillePlateau;
 	
+	/**
+	 * Constructeur de jeu qui remplit le plateau a vide sauf les 4 pions de départ
+	 * @param taille, taille du plateau a générer 
+	 */
 	public Jeu(int taille) {
 		this.jeu = new String[taille][taille] ;
 		this.taillePlateau = taille ;
@@ -34,7 +38,9 @@ public class Jeu {
 
 	}
 
-
+	/**
+	 * Methode d'affichage du jeu
+	 */
 	@Override
 	public String toString() {
 		String hautPlateau = "a b c d e f g h i j k l m n o p q r s t u v w x y z ";
@@ -49,6 +55,49 @@ public class Jeu {
 		}
 		return "Jeu [jeu= \n" + plateau + " ]";
 	}
+
+   // getter - setter 
+	
+	public String[][] getJeu() {
+		return jeu;
+	}
+
+
+	public void setJeu(String[][] jeu) {
+		this.jeu = jeu;
+	}
+
+
+	public Joueur getJ1() {
+		return j1;
+	}
+
+
+	public void setJ1(Joueur j1) {
+		this.j1 = j1;
+	}
+
+
+	public Joueur getJ2() {
+		return j2;
+	}
+
+
+	public void setJ2(Joueur j2) {
+		this.j2 = j2;
+	}
+
+
+	public int getTaillePlateau() {
+		return taillePlateau;
+	}
+
+
+	public void setTaillePlateau(int taillePlateau) {
+		this.taillePlateau = taillePlateau;
+	}
+	
+	
 
 
 }
