@@ -9,11 +9,6 @@ Jeu de Reversi pour le projet de representation de connaisances
 * Deployment instructions
 Lancez le projet et ... 
 
-### Contribution guidelines ###
-Yoan FATH
-
-Jonathan SCHMITT
-
 * Writing tests
 * Code review
 * Other guidelines
@@ -21,3 +16,14 @@ Jonathan SCHMITT
 ### Github link ###
 
 https://github.com/kaysou/L3_reversi
+
+### Contribution guidelines ###
+Séance 1 :
+	Yoan FATH et Jonathan SCHMITT
+	- Mise en place du projet
+	- Initialisation du depôt github
+	- Mise en place du jeu et affichage
+	- Mise en place des états sans successeurs
+	- Enumération de positions pour faciliter le placement des coups
+
+Séance 2 :
