@@ -1,15 +1,13 @@
 package Reversi;
 
 public class EtatReversi extends Etat {
-	
-	private Jeu game;
-	// connait les positions grace au jeu
-	// connait les joueurs grace au jeu
-	private String joueurCourant;
+	// plateau de jeu initial
+	private String[][] jeu;
+	private Joueur joueurCourant;
 	
 	
-	public EtatReversi() {
-		
+	public EtatReversi(Jeu game) {
+		this.jeu = game.getJeu() ;
 	}
 
 	@Override

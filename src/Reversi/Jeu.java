@@ -41,19 +41,19 @@ public class Jeu {
 	/**
 	 * Methode d'affichage du jeu
 	 */
-	@Override
-	public String toString() {
+	public String afficherPlateau(String[][] game) {
 		String hautPlateau = "a b c d e f g h i j k l m n o p q r s t u v w x y z ";
-		String plateau =  hautPlateau.substring(0, taillePlateau*2 ) + "\n";
-
-		for(String[] s1 : jeu) {
-
+		String plateau = "  " + hautPlateau.substring(0, taillePlateau*2 ) + "\n";
+		int i = 0 ;
+		
+		for(String[] s1 : game) {
+			plateau += ++i + " ";
 			for(String s2 : s1) {
 				plateau += s2 + " ";
 			}
 			plateau += "\n" ; 
 		}
-		return "Jeu [jeu= \n" + plateau + " ]";
+		return "plateau du jeu [ \n" + plateau + " ]";
 	}
 
    // getter - setter 
