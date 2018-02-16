@@ -6,8 +6,9 @@ public class EtatReversi extends Etat {
 	private Joueur joueurCourant;
 	
 	
-	public EtatReversi(Jeu game) {
+	public EtatReversi(Jeu game, Joueur j) {
 		this.jeu = game.getJeu() ;
+		this.joueurCourant = j;
 	}
 
 	@Override
