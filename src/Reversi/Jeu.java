@@ -1,6 +1,9 @@
 package Reversi;
 
+import java.awt.Color;
 import java.util.Arrays;
+
+import graphique.TypeCase;
 
 /**
  * 
@@ -9,9 +12,12 @@ import java.util.Arrays;
  * contient des joueurs 
  */
 public class Jeu {
-	private String[][] jeu;
-	private Joueur j1;
-	private Joueur j2;
+	private TypeCase[][] jeu;
+	private JoueurReversi j1 = new JoueurReversi(Color.white);
+	private JoueurReversi j2 =  new JoueurReversi(Color.BLACK);
+	
+	private JoueurReversi courant;
+	
 	private int taillePlateau;
 	
 	/**
@@ -19,36 +25,35 @@ public class Jeu {
 	 * @param taille, taille du plateau a générer 
 	 */
 	public Jeu(int taille) {
-		this.jeu = new String[taille][taille] ;
+		this.jeu = new TypeCase[taille][taille] ;
 		this.taillePlateau = taille ;
 		
 		for(int i = 0 ; i < taille ; i++) {
 			for(int j = 0 ; j < taille ; j++) {
-				jeu[i][j] = "v" ;
+				jeu[i][j] = TypeCase.vide ;
 			}
 		}
 		// dessiner les 4 pions de base
 		// pions blanc
-		this.jeu[taille/2][taille/2] = "b" ;
-		this.jeu[(taille/2-1)][(taille/2)-1] = "b" ;
+		this.jeu[taille/2][taille/2] = TypeCase.blanche ;
+		this.jeu[(taille/2-1)][(taille/2)-1] = TypeCase.blanche ;
 		
 		// pions noir
-		this.jeu[taille/2][(taille/2)-1] = "n" ;
-		this.jeu[(taille/2)-1][taille/2] = "n" ;
-
+		this.jeu[taille/2][(taille/2)-1] = TypeCase.noir ;
+		this.jeu[(taille/2)-1][taille/2] = TypeCase.noir ;
+		
+		// les jetons blancs commencent
+		courant = j1;
 	}
 
 	/**
 	 * Methode d'affichage du jeu
 	 */
-	public String afficherPlateau(String[][] game) {
-		String hautPlateau = "a b c d e f g h i j k l m n o p q r s t u v w x y z ";
-		String plateau = "  " + hautPlateau.substring(0, taillePlateau*2 ) + "\n";
-		int i = 0 ;
+	public String afficherPlateau(TypeCase[][] game) {
+		String plateau = "";
 		
-		for(String[] s1 : game) {
-			plateau += ++i + " ";
-			for(String s2 : s1) {
+		for(TypeCase[] s1 : game) {
+			for(TypeCase s2 : s1) {
 				plateau += s2 + " ";
 			}
 			plateau += "\n" ; 
@@ -58,32 +63,32 @@ public class Jeu {
 
    // getter - setter 
 	
-	public String[][] getJeu() {
+	public TypeCase[][] getJeu() {
 		return jeu;
 	}
 
 
-	public void setJeu(String[][] jeu) {
+	public void setJeu(TypeCase[][] jeu) {
 		this.jeu = jeu;
 	}
 
 
-	public Joueur getJ1() {
+	public JoueurReversi getJ1() {
 		return j1;
 	}
 
 
-	public void setJ1(Joueur j1) {
+	public void setJ1(JoueurReversi j1) {
 		this.j1 = j1;
 	}
 
 
-	public Joueur getJ2() {
+	public JoueurReversi getJ2() {
 		return j2;
 	}
 
 
-	public void setJ2(Joueur j2) {
+	public void setJ2(JoueurReversi j2) {
 		this.j2 = j2;
 	}
 
