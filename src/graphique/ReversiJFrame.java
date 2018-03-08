@@ -36,7 +36,10 @@ public class ReversiJFrame extends JFrame {
 	    		}else
 	    		if(tab[i][j] == TypeCase.noir){
 	    			this.pan.add(new CaseNoir());
-	    		}
+	    		}else
+		    		if(tab[i][j] == TypeCase.jouable){
+		    			this.pan.add(new CaseJouable());
+		    		}
 
 		    }
 	    }
