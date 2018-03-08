@@ -25,5 +25,9 @@ Séance 1 :
 	- Mise en place du jeu et affichage
 	- Mise en place des états sans successeurs
 	- Enumération de positions pour faciliter le placement des coups
-
+	
+Travail préparatoire:
+	Yoan FATH
+	- mise en place d'une interface graphique pour jouer plus facilement
+	- début implémentation algorithme pour savoir les coups possibles
 Séance 2 :
