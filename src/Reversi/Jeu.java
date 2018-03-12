@@ -37,7 +37,6 @@ public class Jeu {
 		// pions blanc
 		this.jeu[taille/2][taille/2] = TypeCase.blanche ;
 		this.jeu[(taille/2-1)][(taille/2)-1] = TypeCase.blanche ;
-		this.jeu[(taille/2-1)][(taille/2)-2] = TypeCase.blanche ;
 		// pions noir
 		this.jeu[taille/2][(taille/2)-1] = TypeCase.noir ;
 		this.jeu[(taille/2)-1][taille/2] = TypeCase.noir ;
