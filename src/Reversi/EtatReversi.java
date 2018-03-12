@@ -3,6 +3,7 @@ package Reversi;
 import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import graphique.TypeCase;
@@ -261,6 +262,29 @@ public class EtatReversi extends Etat {
 		return nouvJeu;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		EtatReversi other = (EtatReversi) obj;
+		if (!Arrays.deepEquals(jeu, other.jeu))
+			return false;
+		if (joueurAdv == null) {
+			if (other.joueurAdv != null)
+				return false;
+		} else if (!joueurAdv.equals(other.joueurAdv))
+			return false;
+		if (joueurCourant == null) {
+			if (other.joueurCourant != null)
+				return false;
+		} else if (!joueurCourant.equals(other.joueurCourant))
+			return false;
+		return true;
+	}
 
 
 }
