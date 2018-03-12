@@ -9,12 +9,13 @@ public class Principale {
 	public static void main(String[] args) {
 		Jeu j = new Jeu(8);
 		System.out.print(j.afficherPlateau(j.getJeu()));
-		JoueurReversi player1 = new JoueurReversi(Color.BLACK);
+		JoueurReversi player1 = new JoueurReversi(Color.WHITE);
+		JoueurReversi player2 = new JoueurReversi(Color.BLACK);
 		/**
 		 * test interface graphique
 		 */
-		EtatReversi test = new EtatReversi(j.getJeu(), player1);
-		test.successeur();
+		EtatReversi test = new EtatReversi(j.getJeu(), player1, player2);
+		test.caseJouable();
 		j.setJeu(test.getJeu());
 				
 		ReversiJFrame frame = new ReversiJFrame(8,j);

@@ -1,7 +1,9 @@
 package Reversi;
 
 import java.awt.Color;
+import java.awt.Point;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import graphique.TypeCase;
 
@@ -10,12 +12,13 @@ public class EtatReversi extends Etat {
 	private TypeCase[][] jeu;
 	private JoueurReversi joueurCourant;
 	private JoueurReversi joueurAdv;
-	
-	
+	private HashMap<Point, EtatReversi> map;
+
 	public EtatReversi(TypeCase[][] game, JoueurReversi j, JoueurReversi adv ) {
 		this.jeu = game ;
 		this.joueurCourant = j;
 		this.joueurAdv = adv;
+		this.map = new HashMap<>();
 	}
 
 	@Override
@@ -37,94 +40,99 @@ public class EtatReversi extends Etat {
 		EtatReversi nouvEtat; 
 		// plateau de jeu temporaire qui permet le calcul des successeurs
 		TypeCase [][] tmp; 
-		 // ArrayList qui contient les successeurs
+		// ArrayList qui contient les successeurs
 		ArrayList<EtatReversi> listeSucc = new ArrayList<EtatReversi>();
-		
+
 		// parcours des pions
 		for(int i = 0 ; i < jeu.length ; i++) {
 			for(int j = 0 ; j < jeu[1].length; j++) {
-				tmp = jeu;
+				k = j ;
+				tmp = cloneJeu(jeu);
 				// si on trouve un pion du joueur courant on tests les coups possibles
-	    		if(jeu[i][j] == couleurJoueur) {
-	    			// test coup vers la gauche
-    				while(k-1 >= 0 && jeu[i][k-1] != couleurJoueur ) {
-    					// si on trouve un pion ennemi on peut peut etre jouer pour le prendre
-    					if(jeu[i][k] == couleurEnnemi) {
-    						tmp[i][k] = couleurJoueur; // on prend la case
-    						prise = true ;
-    					}
-    					// si on a sauté un pion ennemi et qu'il y a une case vide derrière
-    					if(prise && jeu[i][k] == TypeCase.vide) {
-    						jeu[i][k] = TypeCase.jouable;
-    						tmp[i][k] = couleurJoueur;
-    						prise = false ; 
-    						nouvEtat = new EtatReversi(tmp,joueurAdv, joueurCourant);
-    						listeSucc.add(nouvEtat);
-    						break;
-    					}
-    					k--;
-    				}
-    				tmp = jeu;
-    				k = j;
-    				// test coup vers la droite
-    				while(k+1 < jeu[1].length && jeu[i][k+1] != couleurJoueur ) {
-    					// si on trouve un pion ennemi on peut peut etre jouer pour le prendre
-    					if(jeu[i][k] == couleurEnnemi) {
-    						tmp[i][k] = couleurJoueur; // on prend la case
-    						prise = true ;
-    					}
-    					// si on a sauté un pion ennemi et qu'il y a une case vide derrière
-    					if(prise && jeu[i][k] == TypeCase.vide) {
-    						jeu[i][k] = TypeCase.jouable;
-    						tmp[i][k] = couleurJoueur;
-    						prise = false ; 
-    						nouvEtat = new EtatReversi(tmp,joueurAdv, joueurCourant);
-    						listeSucc.add(nouvEtat);
-    						break;
-    					}
-    					k++;
-    				}
-    				tmp = jeu;
-    				k = i ;
-    				// test coup vers le bas
-    				while(k+1 < jeu.length && jeu[k+1][j] != couleurJoueur ) {
-    					// si on trouve un pion ennemi on peut peut etre jouer pour le prendre
-    					if(jeu[k][j] == couleurEnnemi) {
-    						tmp[i][k] = couleurJoueur; // on prend la case
-    						prise = true ;
-    					}
-    					// si on a sauté un pion ennemi et qu'il y a une case vide derrière
-    					if(prise && jeu[k][j] == TypeCase.vide) {
-    						jeu[i][k] = TypeCase.jouable;
-    						tmp[k][j] = couleurJoueur;
-    						prise = false ; 
-    						nouvEtat = new EtatReversi(tmp,joueurAdv, joueurCourant);
-    						listeSucc.add(nouvEtat);
-    						break;
-    					}
-    					k++;
-    				}
-    				tmp = jeu;
-    				k = i ;
-    				// test coup vers le haut
-    				while(k-1 >=0 && jeu[k-1][j] != couleurJoueur ) {
-    					// si on trouve un pion ennemi on peut peut etre jouer pour le prendre
-    					if(jeu[k][j] == couleurEnnemi) {
-    						tmp[i][k] = couleurJoueur; // on prend la case
-    						prise = true ;
-    					}
-    					// si on a sauté un pion ennemi et qu'il y a une case vide derrière
-    					if(prise && jeu[k][j] == TypeCase.vide) {
-    						jeu[i][k] = TypeCase.jouable;
-    						tmp[k][j] = couleurJoueur;
-    						prise = false ; 
-    						nouvEtat = new EtatReversi(tmp,joueurAdv, joueurCourant);
-    						listeSucc.add(nouvEtat);
-    						break;
-    					}
-    					k--;
-    				}
-	    		}
+				if(jeu[i][j] == couleurJoueur) {
+					// test coup vers la gauche
+					while(k-1 >= 0 && jeu[i][k-1] != couleurJoueur ) {
+						// si on trouve un pion ennemi on peut peut etre jouer pour le prendre
+						if(jeu[i][k] == couleurEnnemi) {
+							//tmp[i][k] = couleurJoueur; // on prend la case
+							prise = true ;
+						}
+						// si on a sauté un pion ennemi et qu'il y a une case vide derrière
+						if(prise && jeu[i][k] == TypeCase.vide) {
+							System.out.println("successeur");
+							jeu[i][k] = TypeCase.jouable;
+							//tmp[i][k] = couleurJoueur;
+							prise = false ; 
+							nouvEtat = new EtatReversi(tmp,joueurAdv, joueurCourant);
+							listeSucc.add(nouvEtat);
+							break;
+						}
+						k--;
+					}
+					tmp = cloneJeu(jeu);
+					k = j;
+					// test coup vers la droite
+					while(k+1 < jeu[1].length && jeu[i][k+1] != couleurJoueur ) {
+						// si on trouve un pion ennemi on peut peut etre jouer pour le prendre
+						if(jeu[i][k] == couleurEnnemi) {
+							//tmp[i][k] = couleurJoueur; // on prend la case
+							prise = true ;
+						}
+						// si on a sauté un pion ennemi et qu'il y a une case vide derrière
+						if(prise && jeu[i][k] == TypeCase.vide) {
+							System.out.println("successeur");
+							jeu[i][k] = TypeCase.jouable;
+							//tmp[i][k] = couleurJoueur;
+							prise = false ; 
+							nouvEtat = new EtatReversi(tmp,joueurAdv, joueurCourant);
+							listeSucc.add(nouvEtat);
+							break;
+						}
+						k++;
+					}
+					tmp = cloneJeu(jeu);
+					k = i ;
+					// test coup vers le bas
+					while(k+1 < jeu.length && jeu[k+1][j] != couleurJoueur ) {
+						// si on trouve un pion ennemi on peut peut etre jouer pour le prendre
+						if(jeu[k][j] == couleurEnnemi) {
+							//tmp[i][k] = couleurJoueur; // on prend la case
+							prise = true ;
+						}
+						// si on a sauté un pion ennemi et qu'il y a une case vide derrière
+						if(prise && jeu[k][j] == TypeCase.vide) {
+							System.out.println("successeur");
+							jeu[i][k] = TypeCase.jouable;
+							//tmp[i][k] = couleurJoueur;
+							prise = false ; 
+							nouvEtat = new EtatReversi(tmp,joueurAdv, joueurCourant);
+							listeSucc.add(nouvEtat);
+							break;
+						}
+						k++;
+					}
+					tmp = cloneJeu(jeu);
+					k = i ;
+					// test coup vers le haut
+					while(k-1 >=0 && jeu[k-1][j] != couleurJoueur ) {
+						// si on trouve un pion ennemi on peut peut etre jouer pour le prendre
+						if(jeu[k][j] == couleurEnnemi) {
+							//tmp[i][k] = couleurJoueur; // on prend la case
+							prise = true ;
+						}
+						// si on a sauté un pion ennemi et qu'il y a une case vide derrière
+						if(prise && jeu[k][j] == TypeCase.vide) {
+							System.out.println("successeur");
+							jeu[i][k] = TypeCase.jouable;
+							//tmp[i][k] = couleurJoueur;
+							prise = false ; 
+							nouvEtat = new EtatReversi(tmp,joueurAdv, joueurCourant);
+							listeSucc.add(nouvEtat);
+							break;
+						}
+						k--;
+					}
+				}
 			}
 		}
 	}
@@ -133,11 +141,11 @@ public class EtatReversi extends Etat {
 	// vertical = HAUT BAS
 	// horizontal = GAUCHE DROITE
 	public void calculDiag(TypeCase joueur, TypeCase ennemi, String vertical, String horizontal){
-		
-		
-		
+
+
+
 	}
-	
+
 	// calcul des cases jouable par le joueur courant
 	public void caseJouable(){
 		TypeCase couleurJoueur ;
@@ -150,6 +158,7 @@ public class EtatReversi extends Etat {
 			couleurEnnemi = TypeCase.noir;
 			couleurJoueur = TypeCase.blanche;
 		}
+		Point p;
 		int k = 0;
 		boolean prise = false ;
 		// parcours des pions
@@ -157,75 +166,75 @@ public class EtatReversi extends Etat {
 			for(int j = 0 ; j < jeu[1].length; j++) {
 				k = j ;
 				// si on trouve un pion du joueur courant on tests les coups possibles
-	    		if(jeu[i][j] == couleurJoueur) {
-	    			// test coup vers la gauche
-	    				while(k-1 >= 0 && jeu[i][k-1] != couleurJoueur ) {
-	    					// si on trouve un pion ennemi on peut peut etre jouer pour le prendre
-	    					if(jeu[i][k] == couleurEnnemi) {
-	    						prise = true ;
-	    					}
-	    					// si on a sauté un pion ennemi et qu'il y a une case vide derrière
-	    					if(prise && jeu[i][k] == TypeCase.vide) {
-	    						jeu[i][k] = TypeCase.jouable;
-	    						prise = false ; 
-	    						break;
-	    					}
-	    					k--;
-	    				}
-	    				k = j;
-	    				// test coup vers la droite
-	    				while(k+1 < jeu[1].length && jeu[i][k+1] != couleurJoueur ) {
-	    					// si on trouve un pion ennemi on peut peut etre jouer pour le prendre
-	    					if(jeu[i][k] == couleurEnnemi) {
-	    						prise = true ;
-	    					}
-	    					// si on a sauté un pion ennemi et qu'il y a une case vide derrière
-	    					if(prise && jeu[i][k] == TypeCase.vide) {
-	    						jeu[i][k] = TypeCase.jouable;
-	    						prise = false ; 
-	    						break;
-	    					}
-	    					k++;
-	    				}
-	    				k = i ;
-	    				// test coup vers le bas
-	    				while(k+1 < jeu.length && jeu[k+1][j] != couleurJoueur ) {
-	    					// si on trouve un pion ennemi on peut peut etre jouer pour le prendre
-	    					if(jeu[k][j] == couleurEnnemi) {
-	    						prise = true ;
-	    					}
-	    					// si on a sauté un pion ennemi et qu'il y a une case vide derrière
-	    					if(prise && jeu[k][j] == TypeCase.vide) {
-	    						jeu[k][j] = TypeCase.jouable;
-	    						prise = false ; 
-	    						break;
-	    					}
-	    					k++;
-	    				}
-	    				k = i ;
-	    				// test coup vers le haut
-	    				while(k-1 >=0 && jeu[k-1][j] != couleurJoueur ) {
-	    					// si on trouve un pion ennemi on peut peut etre jouer pour le prendre
-	    					if(jeu[k][j] == couleurEnnemi) {
-	    						prise = true ;
-	    					}
-	    					// si on a sauté un pion ennemi et qu'il y a une case vide derrière
-	    					if(prise && jeu[k][j] == TypeCase.vide) {
-	    						jeu[k][j] = TypeCase.jouable;
-	    						prise = false ; 
-	    						break;
-	    					}
-	    					k--;
-	    				}
-	    				
-	    		}
+				if(jeu[i][j] == couleurJoueur) {
+					// test coup vers la gauche
+					while(k-1 >= 0 && jeu[i][k-1] != couleurJoueur ) {
+						// si on trouve un pion ennemi on peut peut etre jouer pour le prendre
+						if(jeu[i][k] == couleurEnnemi) {
+							prise = true ;
+						}
+						// si on a sauté un pion ennemi et qu'il y a une case vide derrière
+						if(prise && jeu[i][k] == TypeCase.vide) {
+							jeu[i][k] = TypeCase.jouable;
+							prise = false ; 
+							break;
+						}
+						k--;
+					}
+					k = j;
+					// test coup vers la droite
+					while(k+1 < jeu[1].length && jeu[i][k+1] != couleurJoueur ) {
+						// si on trouve un pion ennemi on peut peut etre jouer pour le prendre
+						if(jeu[i][k] == couleurEnnemi) {
+							prise = true ;
+						}
+						// si on a sauté un pion ennemi et qu'il y a une case vide derrière
+						if(prise && jeu[i][k] == TypeCase.vide) {
+							jeu[i][k] = TypeCase.jouable;
+							prise = false ; 
+							break;
+						}
+						k++;
+					}
+					k = i ;
+					// test coup vers le bas
+					while(k+1 < jeu.length && jeu[k+1][j] != couleurJoueur ) {
+						// si on trouve un pion ennemi on peut peut etre jouer pour le prendre
+						if(jeu[k][j] == couleurEnnemi) {
+							prise = true ;
+						}
+						// si on a sauté un pion ennemi et qu'il y a une case vide derrière
+						if(prise && jeu[k][j] == TypeCase.vide) {
+							jeu[k][j] = TypeCase.jouable;
+							prise = false ; 
+							break;
+						}
+						k++;
+					}
+					k = i ;
+					// test coup vers le haut
+					while(k-1 >=0 && jeu[k-1][j] != couleurJoueur ) {
+						// si on trouve un pion ennemi on peut peut etre jouer pour le prendre
+						if(jeu[k][j] == couleurEnnemi) {
+							prise = true ;
+						}
+						// si on a sauté un pion ennemi et qu'il y a une case vide derrière
+						if(prise && jeu[k][j] == TypeCase.vide) {
+							jeu[k][j] = TypeCase.jouable;
+							prise = false ; 
+							break;
+						}
+						k--;
+					}
+
+				}
 			}
 		}
 	}
 
 	@Override
 	public void lireEtat() {
-		
+
 	}
 
 
@@ -242,6 +251,16 @@ public class EtatReversi extends Etat {
 		this.jeu = jeu;
 	}
 	
-	
-	
+	public TypeCase[][] cloneJeu( TypeCase [][] jeu){
+		TypeCase[][] nouvJeu = new TypeCase[jeu.length][jeu[1].length];
+		for(int i = 0 ; i < jeu.length ; i++) {
+			for(int j = 0 ; j < jeu[1].length; j++) {
+				nouvJeu[i][j] = jeu[i][j];
+			}
+		}
+		return nouvJeu;
+	}
+
+
+
 }
