@@ -2,6 +2,7 @@ package Reversi;
 
 import java.awt.Color;
 import java.util.Arrays;
+import java.util.Observable;
 
 import graphique.TypeCase;
 
@@ -11,7 +12,7 @@ import graphique.TypeCase;
  * contient un tableau de String qui correspond au plateau de jeu
  * contient des joueurs 
  */
-public class Jeu {
+public class Jeu extends Observable {
 	private TypeCase[][] jeu;
 	private JoueurReversi j1 = new JoueurReversi(Color.white);
 	private JoueurReversi j2 =  new JoueurReversi(Color.BLACK);
@@ -69,6 +70,8 @@ public class Jeu {
 
 	public void setJeu(TypeCase[][] jeu) {
 		this.jeu = jeu;
+		setChanged();
+		notifyObservers();
 	}
 
 
@@ -97,11 +100,23 @@ public class Jeu {
 	}
 
 
+	public JoueurReversi getCourant() {
+		return courant;
+	}
+
+	public void setCourant(JoueurReversi courant) {
+		this.courant = courant;
+	}
+
 	public void setTaillePlateau(int taillePlateau) {
 		this.taillePlateau = taillePlateau;
 	}
 	
-	
+	public void setCase(int i, int j, TypeCase newType) {
+		this.jeu[i][j] = newType;
+		setChanged();
+		notifyObservers();
+	}
 
 
 }

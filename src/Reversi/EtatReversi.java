@@ -13,15 +13,17 @@ public class EtatReversi extends Etat {
 	private TypeCase[][] jeu;
 	private JoueurReversi joueurCourant;
 	private JoueurReversi joueurAdv;
-	private HashMap<Point, EtatReversi> map;
 
-	public EtatReversi(TypeCase[][] game, JoueurReversi j, JoueurReversi adv ) {
-		this.jeu = game ;
-		this.joueurCourant = j;
-		this.joueurAdv = adv;
-		this.map = new HashMap<>();
+	public EtatReversi(Jeu game) {
+		this.jeu = game.getJeu() ;
+		this.joueurCourant = game.getJ1();
+		this.joueurAdv = game.getJ2();
 	}
-
+	
+	public void successeur() {
+		
+	}
+/**
 	@Override
 	public void successeur() {
 		TypeCase couleurJoueur ;
@@ -64,7 +66,7 @@ public class EtatReversi extends Etat {
 							jeu[i][k] = TypeCase.jouable;
 							//tmp[i][k] = couleurJoueur;
 							prise = false ; 
-							nouvEtat = new EtatReversi(tmp,joueurAdv, joueurCourant);
+							//nouvEtat = new EtatReversi(tmp,joueurAdv, joueurCourant);
 							listeSucc.add(nouvEtat);
 							break;
 						}
@@ -85,7 +87,7 @@ public class EtatReversi extends Etat {
 							jeu[i][k] = TypeCase.jouable;
 							//tmp[i][k] = couleurJoueur;
 							prise = false ; 
-							nouvEtat = new EtatReversi(tmp,joueurAdv, joueurCourant);
+							//nouvEtat = new EtatReversi(tmp,joueurAdv, joueurCourant);
 							listeSucc.add(nouvEtat);
 							break;
 						}
@@ -106,7 +108,7 @@ public class EtatReversi extends Etat {
 							jeu[i][k] = TypeCase.jouable;
 							//tmp[i][k] = couleurJoueur;
 							prise = false ; 
-							nouvEtat = new EtatReversi(tmp,joueurAdv, joueurCourant);
+							//nouvEtat = new EtatReversi(tmp,joueurAdv, joueurCourant);
 							listeSucc.add(nouvEtat);
 							break;
 						}
@@ -127,7 +129,7 @@ public class EtatReversi extends Etat {
 							jeu[i][k] = TypeCase.jouable;
 							//tmp[i][k] = couleurJoueur;
 							prise = false ; 
-							nouvEtat = new EtatReversi(tmp,joueurAdv, joueurCourant);
+							//nouvEtat = new EtatReversi(tmp,joueurAdv, joueurCourant);
 							listeSucc.add(nouvEtat);
 							break;
 						}
@@ -136,7 +138,7 @@ public class EtatReversi extends Etat {
 				}
 			}
 		}
-	}
+	}**/
 
 	//  calcul des cases jouable en diagonale
 	// vertical = HAUT BAS
