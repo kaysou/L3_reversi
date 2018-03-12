@@ -15,6 +15,7 @@ public class Principale {
 		 * test interface graphique
 		 */
 		EtatReversi test = new EtatReversi(j.getJeu(), player1, player2);
+		
 		test.caseJouable();
 		j.setJeu(test.getJeu());
 				
