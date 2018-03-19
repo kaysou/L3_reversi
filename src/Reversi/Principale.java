@@ -1,6 +1,7 @@
 package Reversi;
 
 import java.awt.Color;
+import java.awt.Point;
 
 import graphique.ReversiJFrame;
 
@@ -15,6 +16,7 @@ public class Principale {
 		 */
 		
 		ReversiJFrame frame = new ReversiJFrame(8,j);
+		
 	}
 
 }
