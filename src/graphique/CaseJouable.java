@@ -36,7 +36,7 @@ public class CaseJouable extends JButton implements Case {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				jeu.setCase(x,y, couleurJoueur) ;
+				jeu.jouer(x,y) ;
 				System.out.println("test");
 			}
 		});

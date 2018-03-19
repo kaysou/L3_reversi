@@ -13,10 +13,6 @@ public class Principale {
 		/**
 		 * test interface graphique
 		 */
-		EtatReversi test = new EtatReversi(j);
-		
-		test.caseJouable();
-		j.setJeu(test.getJeu());
 		
 		ReversiJFrame frame = new ReversiJFrame(8,j);
 	}
