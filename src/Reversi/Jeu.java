@@ -61,6 +61,11 @@ public class Jeu extends Observable {
 		return "plateau du jeu [ \n" + plateau + " ]";
 	}
 
+	
+	public void jouer(int x, int y) {
+		this.setCase(x,y,this.courant.getTc());
+	}
+	
    // getter - setter 
 	
 	public TypeCase[][] getJeu() {

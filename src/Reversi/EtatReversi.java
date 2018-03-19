@@ -151,16 +151,10 @@ public class EtatReversi extends Etat {
 
 	// calcul des cases jouable par le joueur courant
 	public void caseJouable(){
-		TypeCase couleurJoueur ;
-		TypeCase couleurEnnemi ;
-		// on recupere les types de cases des joueurs
-		if(joueurCourant.getCouleurJoueur() == Color.black) {
-			couleurEnnemi = TypeCase.blanche;
-			couleurJoueur = TypeCase.noir;
-		}else {
-			couleurEnnemi = TypeCase.noir;
-			couleurJoueur = TypeCase.blanche;
-		}
+		TypeCase couleurJoueur = joueurCourant.getTc() ;
+		TypeCase couleurEnnemi = joueurAdv.getTc() ;
+		
+
 		Point p;
 		int k = 0;
 		boolean prise = false ;

@@ -2,13 +2,18 @@ package Reversi;
 
 import java.awt.Color;
 
+import graphique.TypeCase;
+
 public class JoueurReversi extends Joueur{
 	private Color couleurJoueur;
+	private TypeCase tc;
+	
 	// booleen pour definir si le joueur peut jouer ou non
 	private boolean tour;
 	
 	public JoueurReversi(Color c) {
 		this.couleurJoueur = c ;
+		this.tc = c == Color.WHITE ? TypeCase.blanche : TypeCase.noir ;
 		tour = false;
 	}
 
@@ -29,6 +34,8 @@ public class JoueurReversi extends Joueur{
 		return couleurJoueur;
 	}
 
-	
+	public TypeCase getTc() {
+		return tc;
+	}
 	
 }
