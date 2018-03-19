@@ -21,6 +21,9 @@ public class Jeu extends Observable {
 	
 	private int taillePlateau;
 	
+	private EtatReversi etat;
+	
+	
 	/**
 	 * Constructeur de jeu qui remplit le plateau a vide sauf les 4 pions de départ
 	 * @param taille, taille du plateau a générer 
@@ -44,6 +47,10 @@ public class Jeu extends Observable {
 		
 		// les jetons blancs commencent
 		courant = j1;
+		
+		etat = new EtatReversi(this);
+		
+		etat.caseJouable();
 	}
 
 	/**
@@ -63,7 +70,19 @@ public class Jeu extends Observable {
 
 	
 	public void jouer(int x, int y) {
+		this.enleverCaseJouable();
+		
+
+		
 		this.setCase(x,y,this.courant.getTc());
+		
+		this.courant = this.courant == j1 ? j2 : j1 ;
+		
+		etat = new EtatReversi(this);
+		etat.caseJouable();
+		
+		setChanged();
+		notifyObservers();
 	}
 	
    // getter - setter 
@@ -121,6 +140,16 @@ public class Jeu extends Observable {
 		this.jeu[i][j] = newType;
 		setChanged();
 		notifyObservers();
+	}
+	
+	public void enleverCaseJouable() {
+		for(int i = 0 ; i < taillePlateau ; i++) {
+			for(int j = 0 ; j < taillePlateau ; j++) {
+				if(jeu[i][j] == TypeCase.jouable ) {
+					jeu[i][j] = TypeCase.vide ;
+				}
+			}
+		}
 	}
 
 

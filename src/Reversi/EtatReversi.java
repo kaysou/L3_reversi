@@ -16,8 +16,8 @@ public class EtatReversi extends Etat {
 
 	public EtatReversi(Jeu game) {
 		this.jeu = game.getJeu() ;
-		this.joueurCourant = game.getJ1();
-		this.joueurAdv = game.getJ2();
+		this.joueurCourant = game.getCourant();
+		this.joueurAdv =joueurCourant == game.getJ1() ? game.getJ2() : game.getJ1();
 	}
 	
 	public void successeur() {
