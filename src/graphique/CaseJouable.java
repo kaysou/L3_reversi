@@ -25,7 +25,7 @@ public class CaseJouable extends JButton implements Case {
 		this.y = j;
 		this.setBackground(jouable);
 		this.setSize(50,50);
-		TypeCase couleurJoueur;
+		final TypeCase couleurJoueur;
 		if( jeu.getCourant().getCouleurJoueur() == Color.black) {
 			couleurJoueur = TypeCase.noir;
 		}else {
