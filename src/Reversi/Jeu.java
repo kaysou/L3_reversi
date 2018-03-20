@@ -3,6 +3,7 @@ package Reversi;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Observable;
 
 import graphique.TypeCase;
@@ -71,17 +72,24 @@ public class Jeu extends Observable {
 
 	
 	public void jouer(int x, int y) {
-		this.enleverCaseJouable();
-		
 
-		
-		this.setCase(x,y,this.courant.getTc());
-		
+
 		this.courant = this.courant == j1 ? j2 : j1 ;
-		
-		etat = new EtatReversi(this);
+
+		HashMap<PointPerso, EtatReversi> test = etat.getSuccesseur();
+
+		etat = test.get(new PointPerso(x,y));
+
+		System.out.println("_________________________________________________");
+
+		for(int i=0; i< etat.getJeu().length ; i++){
+			System.out.println(Arrays.toString(etat.getJeu()[i]));
+		}
+
+		System.out.println("____________________ FIN _____________________________");
+
 		etat.caseJouable();
-		
+
 		setChanged();
 		notifyObservers();
 	}
