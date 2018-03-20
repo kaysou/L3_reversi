@@ -45,6 +45,8 @@ Séance 3:
 	- Interface graphique MVC sans images -> plus simple à visualiser
 	- Mise à jour cases jouables + changement joueur à chaque pion posé
 	- Ajout d'une classe PointPerso pour relier une case et son EtatReversi
+	- Difference entre joueur et machine
+	- première éval0, éval et minimax 
 	Jonathan SCHMITT
 	- ajout successeur en diagonale
 	
