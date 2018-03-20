@@ -59,7 +59,7 @@ public class ReversiJFrame extends JFrame implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-
+		this.tab = ((Jeu)o).getJeu();
 		this.pan = new JPanel();
 	    GridLayout grid = new GridLayout(taille, taille);
 	    pan.setLayout(grid);
@@ -83,6 +83,6 @@ public class ReversiJFrame extends JFrame implements Observer {
 		    }
 	    }
 		SwingUtilities.updateComponentTreeUI(this);
-		System.out.println(game.afficherPlateau(game.getJeu()));
+		//System.out.println(game.afficherPlateau(game.getJeu()));
 	}
 }

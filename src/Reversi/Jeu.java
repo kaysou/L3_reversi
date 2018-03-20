@@ -15,7 +15,7 @@ import graphique.TypeCase;
  * contient des joueurs 
  */
 public class Jeu extends Observable {
-	private TypeCase[][] jeu;
+	private TypeCase[][] jeuInit;
 	private JoueurReversi j1 = new JoueurReversi(Color.white);
 	private JoueurReversi j2 =  new JoueurReversi(Color.BLACK);
 	
@@ -24,6 +24,7 @@ public class Jeu extends Observable {
 	private int taillePlateau;
 	
 	private EtatReversi etat;
+	public boolean firstLaunch = true;
 	
 	
 	/**
@@ -31,21 +32,21 @@ public class Jeu extends Observable {
 	 * @param taille, taille du plateau a générer 
 	 */
 	public Jeu(int taille) {
-		this.jeu = new TypeCase[taille][taille] ;
+		this.jeuInit = new TypeCase[taille][taille] ;
 		this.taillePlateau = taille ;
 		
 		for(int i = 0 ; i < taille ; i++) {
 			for(int j = 0 ; j < taille ; j++) {
-				jeu[i][j] = TypeCase.vide ;
+				jeuInit[i][j] = TypeCase.vide ;
 			}
 		}
 		// dessiner les 4 pions de base
 		// pions blanc
-		this.jeu[taille/2][taille/2] = TypeCase.blanche ;
-		this.jeu[(taille/2-1)][(taille/2)-1] = TypeCase.blanche ;
+		this.jeuInit[taille/2][taille/2] = TypeCase.blanche ;
+		this.jeuInit[(taille/2-1)][(taille/2)-1] = TypeCase.blanche ;
 		// pions noir
-		this.jeu[taille/2][(taille/2)-1] = TypeCase.noir ;
-		this.jeu[(taille/2)-1][taille/2] = TypeCase.noir ;
+		this.jeuInit[taille/2][(taille/2)-1] = TypeCase.noir ;
+		this.jeuInit[(taille/2)-1][taille/2] = TypeCase.noir ;
 		
 		// les jetons blancs commencent
 		courant = j1;
@@ -53,6 +54,8 @@ public class Jeu extends Observable {
 		etat = new EtatReversi(this);
 		
 		etat.caseJouable();
+		
+		firstLaunch = false;
 	}
 
 	/**
@@ -72,21 +75,11 @@ public class Jeu extends Observable {
 
 	
 	public void jouer(int x, int y) {
-
-
 		this.courant = this.courant == j1 ? j2 : j1 ;
 
 		HashMap<PointPerso, EtatReversi> test = etat.getSuccesseur();
 
-		etat = test.get(new PointPerso(x,y));
-
-		System.out.println("_________________________________________________");
-
-		for(int i=0; i< etat.getJeu().length ; i++){
-			System.out.println(Arrays.toString(etat.getJeu()[i]));
-		}
-
-		System.out.println("____________________ FIN _____________________________");
+		this.setEtat(test.get(new PointPerso(x,y)));
 
 		etat.caseJouable();
 
@@ -168,7 +161,7 @@ public class Jeu extends Observable {
 		int p1 = 0;
 		for(int i = 0 ; i < e.getJeu().length ; i++) {
 			for(int j = 0 ; j < e.getJeu().length ; j++) {
-				if(jeu[i][j] == e.getJoueurCourant().getTc()) {
+				if(this.getJeu()[i][j] == e.getJoueurCourant().getTc()) {
 					p1++;
 				}
 			}
@@ -178,12 +171,16 @@ public class Jeu extends Observable {
    // getter - setter 
 	
 	public TypeCase[][] getJeu() {
-		return jeu;
+		return this.etat.getJeu();
+	}
+	
+	public TypeCase[][] getJeuInit() {
+		return this.jeuInit;
 	}
 
 
 	public void setJeu(TypeCase[][] jeu) {
-		this.jeu = jeu;
+		this.etat.setJeu(jeu);
 		setChanged();
 		notifyObservers();
 	}
@@ -227,7 +224,7 @@ public class Jeu extends Observable {
 	}
 	
 	public void setCase(int i, int j, TypeCase newType) {
-		this.jeu[i][j] = newType;
+		this.getJeu()[i][j] = newType;
 		setChanged();
 		notifyObservers();
 	}
@@ -235,12 +232,16 @@ public class Jeu extends Observable {
 	public void enleverCaseJouable() {
 		for(int i = 0 ; i < taillePlateau ; i++) {
 			for(int j = 0 ; j < taillePlateau ; j++) {
-				if(jeu[i][j] == TypeCase.jouable ) {
-					jeu[i][j] = TypeCase.vide ;
+				if(this.getJeu()[i][j] == TypeCase.jouable ) {
+					this.getJeu()[i][j] = TypeCase.vide ;
 				}
 			}
 		}
 	}
-
+	
+	public void setEtat(EtatReversi e) {
+		this.setJeu(e.getJeu());
+		this.etat = e;
+	}
 
 }

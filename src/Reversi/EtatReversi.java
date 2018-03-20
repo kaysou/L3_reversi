@@ -1,12 +1,8 @@
 package Reversi;
 
-import java.awt.Color;
-import java.awt.Point;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import com.sun.glass.ui.CommonDialogs.Type;
 
 import graphique.TypeCase;
 
@@ -20,7 +16,12 @@ public class EtatReversi extends Etat {
 	
 	public EtatReversi(Jeu game) {
 		this.game = game;
-		this.jeu = game.getJeu() ;
+		if(game.firstLaunch) {
+			this.jeu = game.getJeuInit();
+		}else {
+			this.jeu = game.getJeu() ;
+		}
+
 		this.joueurCourant = game.getCourant();
 		this.joueurAdv =joueurCourant == game.getJ1() ? game.getJ2() : game.getJ1();
 		this.successeur = new HashMap<>();
@@ -363,6 +364,11 @@ public class EtatReversi extends Etat {
 	public void setJoueurAdv(JoueurReversi joueurAdv) {
 		this.joueurAdv = joueurAdv;
 	}
-
+	
+	public void echangerJoueur() {
+		Joueur tmp = this.joueurAdv;
+		this.joueurAdv = this.joueurCourant;
+		this.joueurCourant = (JoueurReversi) tmp;
+	}
 
 }
