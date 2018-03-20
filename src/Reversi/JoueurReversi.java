@@ -7,6 +7,7 @@ import graphique.TypeCase;
 public class JoueurReversi extends Joueur{
 	private Color couleurJoueur;
 	private TypeCase tc;
+	private boolean machine;
 	
 	// booleen pour definir si le joueur peut jouer ou non
 	private boolean tour;
@@ -15,6 +16,7 @@ public class JoueurReversi extends Joueur{
 		this.couleurJoueur = c ;
 		this.tc = c == Color.WHITE ? TypeCase.blanche : TypeCase.noir ;
 		tour = false;
+		this.machine = false;
 	}
 
 	@Override
@@ -37,5 +39,12 @@ public class JoueurReversi extends Joueur{
 	public TypeCase getTc() {
 		return tc;
 	}
-	
+
+	public boolean isMachine() {
+		return machine;
+	}
+
+	public void setMachine(boolean machine) {
+		this.machine = machine;
+	}
 }

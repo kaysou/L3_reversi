@@ -32,3 +32,23 @@ Travail préparatoire:
 	
 	
 Séance 2 :
+	Yoan FATH
+	- Méthode équals pour les etats reversis
+	- Coups jouables pour un joueur donné
+	- Interface graphique MVC 
+	Jonathan SCHMITT
+	- Début méthode successeurs
+	- Début lien entre case et EtatReversi si joué
+
+Séance 3:
+	Yoan FATH
+	- Interface graphique MVC sans images -> plus simple à visualiser
+	- Mise à jour cases jouables + changement joueur à chaque pion posé
+	- Ajout d'une classe PointPerso pour relier une case et son EtatReversi
+	Jonathan SCHMITT
+	- ajout successeur en diagonale
+	
+	
+	
+
+
