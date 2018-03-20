@@ -1,6 +1,7 @@
 package Reversi;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Observable;
 
@@ -85,6 +86,87 @@ public class Jeu extends Observable {
 		notifyObservers();
 	}
 	
+	/**
+	 * Algorithme minimax qui va chercher quel est l'état le plus probable de faire gagner
+	 * Utilise la fonction éval donc -> eval0 définie, cette méthode à un grand impact sur la chance de gagner
+	 * @param dep
+	 * @param prof
+	 * @return
+	 */
+	public EtatReversi minimax(EtatReversi dep,int prof) {
+		// Variables
+		ArrayList<EtatReversi> etats = new ArrayList<>();
+		int score_max =  Integer.MIN_VALUE;
+		int score = 0 ;
+		EtatReversi etat_sortie;
+		
+		// etats = successeurs(dep);
+		etat_sortie = this.etat;
+		
+		for(EtatReversi etat : etats) {
+			score = eval(prof, dep);
+			if(score >= score_max) {
+				etat_sortie = dep;
+				score_max = score;
+			}
+		}
+		return etat_sortie;
+	}
+	
+	/**
+	 * Méthode qui évalue la pertinence d'un état à une profondeur donnée
+	 * @param prof, profondeur testée
+	 * @param etat, état de départ
+	 * @return
+	 */
+	public int eval(int prof, EtatReversi etat) {
+		// variables
+		ArrayList<EtatReversi> etats = new ArrayList<>();
+		EtatReversi current;
+		int score, score_min,score_max = 0 ;
+		
+		// si current est final -> pas de successeur ?
+		// return -infini si perdu, +infini gagné, 0 match nul
+		// fsi
+		
+		if(prof == 0) {
+			return eval0(etat);
+		}
+		
+		if(etat.getJoueurCourant().isMachine()) {
+			score_max = Integer.MIN_VALUE ;
+			
+			for(EtatReversi e : etats) {
+				score_max = Integer.max(score_max,eval(prof-1,e));
+			}
+			return score_max;
+		}else {
+			score_min = Integer.MAX_VALUE;
+			
+			for(EtatReversi e : etats) {
+				score_min = Integer.min(score_max,eval(prof-1,e));
+			}
+			return score_min;
+			
+		}		
+	}
+	
+	/**
+	 * Premiere méthode eval0 qui compte juste le nombre de pions de la couleur du joueur qui joue
+	 * @param e
+	 * @return
+	 */
+	public int eval0(EtatReversi e) {
+		int p1 = 0;
+		for(int i = 0 ; i < e.getJeu().length ; i++) {
+			for(int j = 0 ; j < e.getJeu().length ; j++) {
+				if(jeu[i][j] == e.getJoueurCourant().getTc()) {
+					p1++;
+				}
+			}
+		}
+		return p1;
+	}
    // getter - setter 
 	
 	public TypeCase[][] getJeu() {
