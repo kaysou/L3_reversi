@@ -57,7 +57,8 @@ public class EtatReversi extends Etat {
 				// si on trouve un pion du joueur courant on tests les coups possibles
 				if(jeu[i][j] == couleurJoueur) {
 					// test coup vers la gauche
-					while ( k-1 < jeu.length && k-1 >= 0 && jeu[i][k-1] != couleurJoueur ) {
+					//while ( k-1 < jeu.length && k-1 >= 0 && jeu[i][k-1] != couleurJoueur ) {
+					while ( k < jeu.length && k >= 0 ) {
 						// si on trouve un pion ennemi on peut peut etre jouer pour le prendre
 						if(jeu[i][k] == couleurEnnemi) {
 							prise = true ;
@@ -71,7 +72,7 @@ public class EtatReversi extends Etat {
 							}else{
 								tmp = successeur.get(p).getJeu();
 							}
-								  while ( k < j){
+								  while ( k <= j){
 								  tmp[i][k] = couleurJoueur;
 								  k++;
 								  }
@@ -79,6 +80,14 @@ public class EtatReversi extends Etat {
 								prise = false ; 
 								break;
 							
+						}
+						if (jeu[i][k] == TypeCase.vide){
+							prise = false ;
+							break;
+						}
+						if (jeu[i][k] == couleurJoueur && prise ){
+							prise = false ;
+							break;
 						}
 						k--;
 					}
@@ -99,11 +108,19 @@ public class EtatReversi extends Etat {
 							}else{
 								tmp = successeur.get(p).getJeu();
 							}
-							while ( k > j){
+							while ( k >= j){
 								tmp[i][k] = couleurJoueur;
 								k--;
 							}
 							successeur(tmp,p);
+							prise = false ;
+							break;
+						}
+						if (jeu[i][k] == TypeCase.vide){
+							prise = false ;
+							break;
+						}
+						if (jeu[i][k] == couleurJoueur && prise ){
 							prise = false ;
 							break;
 						}
@@ -127,11 +144,19 @@ public class EtatReversi extends Etat {
 							}else{
 								tmp = successeur.get(p).getJeu();
 							}
-							while ( k > i){
+							while ( k >= i){
 								tmp[k][j] = couleurJoueur;
 								k--;
 							}
 							successeur(tmp,p);
+							prise = false ;
+							break;
+						}
+						if (jeu[k][j] == TypeCase.vide){
+							prise = false ;
+							break;
+						}
+						if (jeu[k][j] == couleurJoueur && prise ){
 							prise = false ;
 							break;
 						}
@@ -154,7 +179,7 @@ public class EtatReversi extends Etat {
 							}else{
 								tmp = successeur.get(p).getJeu();
 							}
-							while ( k < j){
+							while ( k <= j){
 								tmp[k][j] = couleurJoueur;
 								k++;
 							}
@@ -162,6 +187,14 @@ public class EtatReversi extends Etat {
 							prise = false ;
 							break;
 
+						}
+						if (jeu[k][j] == TypeCase.vide){
+							prise = false ;
+							break;
+						}
+						if (jeu[k][j] == couleurJoueur && prise ){
+							prise = false ;
+							break;
 						}
 						k--;
 					}
@@ -183,7 +216,7 @@ public class EtatReversi extends Etat {
 							}else{
 								tmp = successeur.get(p).getJeu();
 							}
-							while ( k < i){
+							while ( k <= i){
 								tmp[k][w] = couleurJoueur;
 								k++;
 								w++;
@@ -192,6 +225,14 @@ public class EtatReversi extends Etat {
 							prise = false ;
 							break;
 
+						}
+						if (jeu[k][w] == TypeCase.vide){
+							prise = false ;
+							break;
+						}
+						if (jeu[k][w] == couleurJoueur && prise ){
+							prise = false ;
+							break;
 						}
 						k--;
 						w--;
@@ -214,12 +255,20 @@ public class EtatReversi extends Etat {
 							}else{
 								tmp = successeur.get(p).getJeu();
 							}
-							while ( k < i){
+							while ( k <= i){
 								tmp[k][w] = couleurJoueur;
 								k++;
 								w--;
 							}
 							successeur(tmp,p);
+							prise = false ;
+							break;
+						}
+						if (jeu[k][w] == TypeCase.vide){
+							prise = false ;
+							break;
+						}
+						if (jeu[k][w] == couleurJoueur && prise ){
 							prise = false ;
 							break;
 						}
@@ -244,12 +293,20 @@ public class EtatReversi extends Etat {
 							}else{
 								tmp = successeur.get(p).getJeu();
 							}
-							while ( k > i){
+							while ( k >= i){
 								tmp[k][w] = couleurJoueur;
 								k--;
 								w++;
 							}
 							successeur(tmp,p);
+							prise = false ;
+							break;
+						}
+						if (jeu[k][w] == TypeCase.vide){
+							prise = false ;
+							break;
+						}
+						if (jeu[k][w] == couleurJoueur && prise ){
 							prise = false ;
 							break;
 						}
@@ -274,12 +331,20 @@ public class EtatReversi extends Etat {
 							}else{
 								tmp = successeur.get(p).getJeu();
 							}
-							while ( k > i){
+							while ( k >= i){
 								tmp[k][w] = couleurJoueur;
 								k--;
 								w++;
 							}
 							successeur(tmp,p);
+							prise = false ;
+							break;
+						}
+						if (jeu[k][w] == TypeCase.vide){
+							prise = false ;
+							break;
+						}
+						if (jeu[k][w] == couleurJoueur && prise ){
 							prise = false ;
 							break;
 						}
