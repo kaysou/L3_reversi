@@ -64,7 +64,7 @@ public class EtatReversi extends Etat {
 							prise = true ;
 						}
 						// si on a sauté un pion ennemi et qu'il y a une case vide derrière
-						if(prise && jeu[i][k] == TypeCase.vide || prise && jeu[i][k] == TypeCase.jouable ) {
+						if((prise && jeu[i][k] == TypeCase.vide )|| (prise && jeu[i][k] == TypeCase.jouable )) {
 							p = new PointPerso(i,k);
 							if(jeu[i][k] == TypeCase.vide){
 								tmp = cloneJeu(jeuInitial);
@@ -100,7 +100,7 @@ public class EtatReversi extends Etat {
 							prise = true ;
 						}
 						// si on a sauté un pion ennemi et qu'il y a une case vide derrière
-						if(prise && (jeu[i][k] == TypeCase.vide || prise && jeu[i][k] == TypeCase.jouable )) {
+						if((prise && jeu[i][k] == TypeCase.vide )||( prise && jeu[i][k] == TypeCase.jouable )) {
 							p = new PointPerso(i,k);
 							if(jeu[i][k] == TypeCase.vide){
 								tmp = cloneJeu(jeuInitial);
@@ -136,7 +136,7 @@ public class EtatReversi extends Etat {
 							prise = true ;
 						}
 						// si on a sauté un pion ennemi et qu'il y a une case vide derrière
-						if(prise && jeu[k][j] == TypeCase.vide || prise && jeu[k][j] == TypeCase.jouable ) {
+						if((prise && jeu[k][j] == TypeCase.vide )|| (prise && jeu[k][j] == TypeCase.jouable) ) {
 							p = new PointPerso(k,j);
 							if(jeu[k][j] == TypeCase.vide){
 								tmp = cloneJeu(jeuInitial);
@@ -171,7 +171,7 @@ public class EtatReversi extends Etat {
 							prise = true ;
 						}
 						// si on a sauté un pion ennemi et qu'il y a une case vide derrière
-						if(prise && jeu[k][j] == TypeCase.vide || prise && jeu[k][j] == TypeCase.jouable ) {
+						if((prise && jeu[k][j] == TypeCase.vide )||( prise && jeu[k][j] == TypeCase.jouable )) {
 							p = new PointPerso(k,j);
 							if(jeu[k][j] == TypeCase.vide){
 								tmp = cloneJeu(jeuInitial);
@@ -208,7 +208,7 @@ public class EtatReversi extends Etat {
 							prise = true ;
 						}
 						// si on a sauté un pion ennemi et qu'il y a une case vide derrière
-						if(prise && jeu[k][w] == TypeCase.vide || prise && jeu[k][w] == TypeCase.jouable) {
+						if((prise && jeu[k][w] == TypeCase.vide )|| (prise && jeu[k][w] == TypeCase.jouable)) {
 							p = new PointPerso(k,w);
 							if(jeu[k][w] == TypeCase.vide){
 								tmp = cloneJeu(jeuInitial);
@@ -247,7 +247,7 @@ public class EtatReversi extends Etat {
 							prise = true ;
 						}
 						// si on a sauté un pion ennemi et qu'il y a une case vide derrière
-						if(prise && jeu[k][w] == TypeCase.vide|| prise && jeu[k][w] == TypeCase.jouable) {
+						if((prise && jeu[k][w] == TypeCase.vide ) || ( prise && jeu[k][w] == TypeCase.jouable)) {
 							p = new PointPerso(k,w);
 							if(jeu[k][w] == TypeCase.vide){
 								tmp = cloneJeu(jeuInitial);
@@ -285,7 +285,7 @@ public class EtatReversi extends Etat {
 							prise = true ;
 						}
 						// si on a sauté un pion ennemi et qu'il y a une case vide derrière
-						if(prise && jeu[k][w] == TypeCase.vide|| prise && jeu[k][w] == TypeCase.jouable) {
+						if((prise && jeu[k][w] == TypeCase.vide ) || ( prise && jeu[k][w] == TypeCase.jouable)) {
 							p = new PointPerso(k,w);
 							if(jeu[k][w] == TypeCase.vide){
 								tmp = cloneJeu(jeuInitial);
@@ -323,7 +323,7 @@ public class EtatReversi extends Etat {
 							prise = true ;
 						}
 						// si on a sauté un pion ennemi et qu'il y a une case vide derrière
-						if(prise && jeu[k][w] == TypeCase.vide|| prise && jeu[k][w] == TypeCase.jouable) {
+						if((prise && jeu[k][w] == TypeCase.vide ) || ( prise && jeu[k][w] == TypeCase.jouable)) {
 							p = new PointPerso(k,w);
 							if(jeu[k][w] == TypeCase.vide){
 								tmp = cloneJeu(jeuInitial);
