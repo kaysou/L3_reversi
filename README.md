@@ -49,6 +49,7 @@ Séance 3:
 	- première éval0, éval et minimax 
 	Jonathan SCHMITT
 	- ajout successeur en diagonale
+	- Liaison case jouable et etat successeur
 	
 	
 	
