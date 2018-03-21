@@ -57,7 +57,7 @@ public class EtatReversi extends Etat {
 				// si on trouve un pion du joueur courant on tests les coups possibles
 				if(jeu[i][j] == couleurJoueur) {
 					// test coup vers la gauche
-					while ( k-1 >= 0 && jeu[i][k-1] != couleurJoueur ) {
+					while ( k-1 < jeu.length && k-1 >= 0 && jeu[i][k-1] != couleurJoueur ) {
 						// si on trouve un pion ennemi on peut peut etre jouer pour le prendre
 						if(jeu[i][k] == couleurEnnemi) {
 							prise = true ;
@@ -85,7 +85,7 @@ public class EtatReversi extends Etat {
 					k = j;
 					// test coup vers la droite
 					//while(k+1 >= 0 && k+1 < jeu.length && jeu[i][k+1] != couleurJoueur ) {
-					while(k >= 0 && k < jeu.length-1 && jeu[i][k+1] != couleurJoueur) {
+					while(k >= 0 && k < jeu.length ) {
 						// si on trouve un pion ennemi on peut peut etre jouer pour le prendre
 						if(jeu[i][k] == couleurEnnemi) {
 							prise = true ;
@@ -113,7 +113,7 @@ public class EtatReversi extends Etat {
 					k = i ;
 					// test coup vers le bas
 					//while(k+1 >= 0 && k+1 < jeu.length && jeu[k+1][j] != couleurJoueur ) {
-					while(k >= 0 && k < jeu.length-1 && jeu[k+1][j] != couleurJoueur) {
+					while(k >= 0 && k < jeu.length) {
 						// si on trouve un pion ennemi on peut peut etre jouer pour le prendre
 						if(jeu[k][j] == couleurEnnemi) {
 							prise = true ;
@@ -140,7 +140,7 @@ public class EtatReversi extends Etat {
 					k = i ;
 					// test coup vers le haut
 					//while(k-1 < jeu.length && k-1 >=0 && jeu[k-1][j] != couleurJoueur ) {
-					while(k < jeu.length && k >0 && jeu[k-1][j] != couleurJoueur ) {
+					while(k < jeu.length && k >=0) {
 						// si on trouve un pion ennemi on peut peut etre jouer pour le prendre
 						if(jeu[k][j] == couleurEnnemi) {
 							prise = true ;
@@ -169,7 +169,7 @@ public class EtatReversi extends Etat {
 					w = j;
 					// test coup vers le haut a gauche
 					//while(k-1 < jeu.length && k-1 >=0 && w-1<jeu.length && w-1 >=0 && jeu[k-1][w-1] != couleurJoueur ) {
-					while(k < jeu.length && k >0 && w<jeu.length && w >0 && jeu[k-1][w-1] != couleurJoueur ) {
+					while(k < jeu.length && k >=0 && w<jeu.length && w >=0 ) {
 					// si on trouve un pion ennemi on peut peut etre jouer pour le prendre
 						if(jeu[k][w] == couleurEnnemi) {
 							prise = true ;
@@ -200,7 +200,7 @@ public class EtatReversi extends Etat {
 					w = j;
 					// test coup vers le haut a droite
 					//while(k-1 <jeu.length && k-1 >=0 && w+1 >=0 && w+1 < jeu.length && jeu[k-1][w+1] != couleurJoueur ) {
-					while(k <jeu.length && k >0 && w >=0 && w < jeu.length-1 && jeu[k-1][w+1] != couleurJoueur) {
+					while(k <jeu.length && k >=0 && w >=0 && w < jeu.length) {
 						// si on trouve un pion ennemi on peut peut etre jouer pour le prendre
 						if(jeu[k][w] == couleurEnnemi) {
 							prise = true ;
@@ -230,7 +230,7 @@ public class EtatReversi extends Etat {
 					w = j;
 					// test coup vers le bas  a gauche
 					//while(k+1 >0 && k+1 < jeu.length && w-1 <jeu.length && w-1 >=0 && jeu[k+1][w-1] != couleurJoueur ) {
-					while(k >0 && k < jeu.length-1 && w <jeu.length && w >0 && jeu[k+1][w-1] != couleurJoueur) {
+					while(k >0 && k < jeu.length && w <jeu.length && w >=0) {
 						// si on trouve un pion ennemi on peut peut etre jouer pour le prendre
 						if(jeu[k][w] == couleurEnnemi) {
 							prise = true ;
@@ -260,7 +260,7 @@ public class EtatReversi extends Etat {
 					w = j;
 					// test coup vers le bas  a droite
 					//while(k+1 >0 && k+1 < jeu.length && w+1>0 && w+1 < jeu.length && jeu[k+1][w+1] != couleurJoueur ) {
-					while(k >0 && k < jeu.length-1 && w>0 && w < jeu.length-1 && jeu[k+1][w+1] != couleurJoueur ) {
+					while(k >0 && k < jeu.length && w>0 && w < jeu.length ) {
 						// si on trouve un pion ennemi on peut peut etre jouer pour le prendre
 						if(jeu[k][w] == couleurEnnemi) {
 							prise = true ;
