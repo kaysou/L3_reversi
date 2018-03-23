@@ -1,10 +1,13 @@
 package graphique;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -19,6 +22,7 @@ public class ReversiJFrame extends JFrame implements Observer {
 	private TypeCase[][] tab;
 	private int taille;
 	private Jeu game;
+	private JPanel panJoueur;
 	
 	public ReversiJFrame(int taille, Jeu jeu) {
 		this.setTitle("Animation");
@@ -51,21 +55,34 @@ public class ReversiJFrame extends JFrame implements Observer {
 		    }
 	    }
 	    
+	    panJoueur = new JPanel();
+	    panJoueur.add(new JLabel(jeu.getCourant().getCouleurJoueur() == Color.BLACK ? "Joueur courant : noir ": "Joueur courant : blanc" ));
+	    
+	    this.setLayout(new BorderLayout());
+	    
 	    pan.setLayout(grid);
-	    this.setContentPane(pan);
+	    
+	    this.add(pan,BorderLayout.CENTER);
+	    this.add(panJoueur, BorderLayout.NORTH);
 	    this.setVisible(true);
 	    game.addObserver(this);
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		this.tab = ((Jeu)o).getJeu();
+		Jeu courant = ((Jeu)o);
+		this.remove(pan);
+		this.remove(panJoueur);
+		this.tab = courant.getJeu();
 		this.pan = new JPanel();
 	    GridLayout grid = new GridLayout(taille, taille);
 	    pan.setLayout(grid);
-	    this.setContentPane(pan);
 
 
+	    this.panJoueur = new JPanel();
+	    panJoueur.add(new JLabel(courant.getCourant().getCouleurJoueur() == Color.BLACK ? "Joueur courant : noir ": "Joueur courant : blanc" ));
+	   
+	    
 		for(int i = 0; i < taille; i++) {
 	    	for(int j = 0; j < taille; j++) {
 	    		if(tab[i][j] == TypeCase.vide) {
@@ -82,6 +99,9 @@ public class ReversiJFrame extends JFrame implements Observer {
 		    		}
 		    }
 	    }
+		
+		this.add(pan, BorderLayout.CENTER);
+		this.add(panJoueur, BorderLayout.NORTH);
 		SwingUtilities.updateComponentTreeUI(this);
 		//System.out.println(game.afficherPlateau(game.getJeu()));
 	}

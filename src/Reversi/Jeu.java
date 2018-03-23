@@ -55,6 +55,9 @@ public class Jeu extends Observable {
 		
 		etat.caseJouable();
 		
+		if(this.j1.isMachine()) {
+			jouer(-1,-1);
+		}
 		firstLaunch = false;
 	}
 
@@ -75,6 +78,11 @@ public class Jeu extends Observable {
 
 	
 	public void jouer(int x, int y) {
+
+		if(this.getCourant().isMachine()) {
+			
+		}
+		
 		this.courant = this.courant == j1 ? j2 : j1 ;
 
 		HashMap<PointPerso, EtatReversi> test = etat.getSuccesseur();
@@ -82,7 +90,9 @@ public class Jeu extends Observable {
 		this.setEtat(test.get(new PointPerso(x,y)));
 
 		etat.caseJouable();
-
+		if(isBloque()) {
+			this.courant = this.courant == j1 ? j2 : j1 ;
+		}
 		setChanged();
 		notifyObservers();
 	}
@@ -101,7 +111,10 @@ public class Jeu extends Observable {
 		int score = 0 ;
 		EtatReversi etat_sortie;
 		
-		// etats = successeurs(dep);
+		for (EtatReversi e : dep.getSuccesseur().values()) {
+			etats.add(e);
+		}
+
 		etat_sortie = this.etat;
 		
 		for(EtatReversi etat : etats) {
@@ -244,4 +257,17 @@ public class Jeu extends Observable {
 		this.etat = e;
 	}
 
+	public boolean isBloque() {
+		TypeCase[][] plat = this.getJeu();
+		int cpt = 0;
+		for(int i = 0 ; i < this.taillePlateau ; i++) {
+			for(int j = 0 ; j < this.taillePlateau ; j++) {
+				if(plat[i][j] == TypeCase.jouable) {
+					cpt++;
+				}
+			}
+		}
+		return cpt==0;
+		
+	}
 }
