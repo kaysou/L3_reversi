@@ -334,7 +334,7 @@ public class EtatReversi extends Etat {
 							while ( k >= i){
 								tmp[k][w] = couleurJoueur;
 								k--;
-								w++;
+								w--;
 							}
 							successeur(tmp,p);
 							prise = false ;
@@ -349,7 +349,7 @@ public class EtatReversi extends Etat {
 							break;
 						}
 						k++;
-						w--;
+						w++;
 					}
 				}
 			}
