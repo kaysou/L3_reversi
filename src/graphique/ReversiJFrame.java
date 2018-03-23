@@ -22,7 +22,7 @@ public class ReversiJFrame extends JFrame implements Observer {
 	
 	public ReversiJFrame(int taille, Jeu jeu) {
 		this.setTitle("Animation");
-	    this.setSize(275, 300);
+	    this.setSize(600, 600);
 	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    this.setLocationRelativeTo(null);
 	    this.taille = taille;
