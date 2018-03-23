@@ -49,6 +49,12 @@ Séance 3:
 	- première éval0, éval et minimax 
 	Jonathan SCHMITT
 	- ajout successeur en diagonale
+	- correction successeurs et case à changer de couleur lors de coup joué
+	
+Séance 4:
+	Yoan FATH
+	
+	Jonathan SCHMITT
 	
 	
 	

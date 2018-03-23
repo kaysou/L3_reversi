@@ -179,7 +179,7 @@ public class EtatReversi extends Etat {
 							}else{
 								tmp = successeur.get(p).getJeu();
 							}
-							while ( k <= j){
+							while ( k <= i){
 								tmp[k][j] = couleurJoueur;
 								k++;
 							}
@@ -279,7 +279,7 @@ public class EtatReversi extends Etat {
 					w = j;
 					// test coup vers le bas  a gauche
 					//while(k+1 >0 && k+1 < jeu.length && w-1 <jeu.length && w-1 >=0 && jeu[k+1][w-1] != couleurJoueur ) {
-					while(k >0 && k < jeu.length && w <jeu.length && w >=0) {
+					while(k >=0 && k < jeu.length && w <jeu.length && w >=0) {
 						// si on trouve un pion ennemi on peut peut etre jouer pour le prendre
 						if(jeu[k][w] == couleurEnnemi) {
 							prise = true ;
@@ -317,7 +317,7 @@ public class EtatReversi extends Etat {
 					w = j;
 					// test coup vers le bas  a droite
 					//while(k+1 >0 && k+1 < jeu.length && w+1>0 && w+1 < jeu.length && jeu[k+1][w+1] != couleurJoueur ) {
-					while(k >0 && k < jeu.length && w>0 && w < jeu.length ) {
+					while(k >=0 && k < jeu.length && w>=0 && w < jeu.length ) {
 						// si on trouve un pion ennemi on peut peut etre jouer pour le prendre
 						if(jeu[k][w] == couleurEnnemi) {
 							prise = true ;

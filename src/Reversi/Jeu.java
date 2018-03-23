@@ -16,8 +16,8 @@ import graphique.TypeCase;
  */
 public class Jeu extends Observable {
 	private TypeCase[][] jeuInit;
-	private JoueurReversi j1 = new JoueurReversi(Color.white);
-	private JoueurReversi j2 =  new JoueurReversi(Color.BLACK);
+	private JoueurReversi j1 = new JoueurReversi(Color.BLACK);
+	private JoueurReversi j2 =  new JoueurReversi(Color.WHITE);
 	
 	private JoueurReversi courant;
 	
