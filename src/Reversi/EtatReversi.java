@@ -81,7 +81,7 @@ public class EtatReversi extends Etat {
 								break;
 							
 						}
-						if (jeu[i][k] == TypeCase.vide){
+						if (jeu[i][k] == TypeCase.vide && !prise){
 							prise = false ;
 							break;
 						}
@@ -116,7 +116,7 @@ public class EtatReversi extends Etat {
 							prise = false ;
 							break;
 						}
-						if (jeu[i][k] == TypeCase.vide){
+						if (jeu[i][k] == TypeCase.vide && !prise ){
 							prise = false ;
 							break;
 						}
@@ -152,7 +152,7 @@ public class EtatReversi extends Etat {
 							prise = false ;
 							break;
 						}
-						if (jeu[k][j] == TypeCase.vide){
+						if (jeu[k][j] == TypeCase.vide && !prise){
 							prise = false ;
 							break;
 						}
@@ -188,7 +188,7 @@ public class EtatReversi extends Etat {
 							break;
 
 						}
-						if (jeu[k][j] == TypeCase.vide){
+						if (jeu[k][j] == TypeCase.vide && !prise){
 							prise = false ;
 							break;
 						}
@@ -226,7 +226,7 @@ public class EtatReversi extends Etat {
 							break;
 
 						}
-						if (jeu[k][w] == TypeCase.vide){
+						if (jeu[k][w] == TypeCase.vide && !prise){
 							prise = false ;
 							break;
 						}
@@ -264,7 +264,7 @@ public class EtatReversi extends Etat {
 							prise = false ;
 							break;
 						}
-						if (jeu[k][w] == TypeCase.vide){
+						if (jeu[k][w] == TypeCase.vide && !prise){
 							prise = false ;
 							break;
 						}
@@ -302,7 +302,7 @@ public class EtatReversi extends Etat {
 							prise = false ;
 							break;
 						}
-						if (jeu[k][w] == TypeCase.vide){
+						if (jeu[k][w] == TypeCase.vide && !prise){
 							prise = false ;
 							break;
 						}
@@ -340,7 +340,7 @@ public class EtatReversi extends Etat {
 							prise = false ;
 							break;
 						}
-						if (jeu[k][w] == TypeCase.vide){
+						if (jeu[k][w] == TypeCase.vide && !prise){
 							prise = false ;
 							break;
 						}

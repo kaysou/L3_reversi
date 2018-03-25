@@ -91,7 +91,21 @@ public class Jeu extends Observable {
 
 		etat.caseJouable();
 		if(isBloque()) {
+			System.out.println("Joueur " + this.courant.getTc() + " bloque");
 			this.courant = this.courant == j1 ? j2 : j1 ;
+			EtatReversi res = new EtatReversi(this);
+
+			this.setEtat(res);
+			etat.caseJouable();
+			
+			setChanged();
+			notifyObservers();
+
+			if (isBloque()){
+				System.out.println("Joueur " + this.courant.getTc() + " bloque");
+				System.out.println("Fin de la partie");
+			}
+
 		}
 		setChanged();
 		notifyObservers();
