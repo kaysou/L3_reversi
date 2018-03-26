@@ -97,7 +97,7 @@ public class Jeu extends Observable {
 
 			this.setEtat(res);
 			etat.caseJouable();
-			
+
 			setChanged();
 			notifyObservers();
 

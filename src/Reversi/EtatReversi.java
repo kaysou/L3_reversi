@@ -53,9 +53,10 @@ public class EtatReversi extends Etat {
 		// parcours des pions
 		for(int i = 0 ; i < jeu.length ; i++) {
 			for(int j = 0 ; j < jeu[1].length; j++) {
-				k = j ;
+
 				// si on trouve un pion du joueur courant on tests les coups possibles
 				if(jeu[i][j] == couleurJoueur) {
+					k=j;
 					// test coup vers la gauche
 					//while ( k-1 < jeu.length && k-1 >= 0 && jeu[i][k-1] != couleurJoueur ) {
 					while ( k < jeu.length && k >= 0 ) {
@@ -77,20 +78,21 @@ public class EtatReversi extends Etat {
 								  k++;
 								  }
 								  successeur(tmp,p);
-								prise = false ; 
 								break;
 							
 						}
-						if (jeu[i][k] == TypeCase.vide && !prise){
-							prise = false ;
+						if (jeu[i][k] == TypeCase.vide){
 							break;
 						}
 						if (jeu[i][k] == couleurJoueur && prise ){
-							prise = false ;
+							break;
+						}
+						if (jeu[i][k] == TypeCase.jouable && !prise ){
 							break;
 						}
 						k--;
 					}
+					prise = false ;
 					k = j;
 					// test coup vers la droite
 					//while(k+1 >= 0 && k+1 < jeu.length && jeu[i][k+1] != couleurJoueur ) {
@@ -113,20 +115,21 @@ public class EtatReversi extends Etat {
 								k--;
 							}
 							successeur(tmp,p);
-							prise = false ;
 							break;
 						}
-						if (jeu[i][k] == TypeCase.vide && !prise ){
-							prise = false ;
+						if (jeu[i][k] == TypeCase.vide){
 							break;
 						}
 						if (jeu[i][k] == couleurJoueur && prise ){
-							prise = false ;
+							break;
+						}
+						if (jeu[i][k] == TypeCase.jouable && !prise ){
 							break;
 						}
 
 						k++;
 					}
+					prise = false ;
 					k = i ;
 					// test coup vers le bas
 					//while(k+1 >= 0 && k+1 < jeu.length && jeu[k+1][j] != couleurJoueur ) {
@@ -149,19 +152,20 @@ public class EtatReversi extends Etat {
 								k--;
 							}
 							successeur(tmp,p);
-							prise = false ;
 							break;
 						}
-						if (jeu[k][j] == TypeCase.vide && !prise){
-							prise = false ;
+						if (jeu[k][j] == TypeCase.vide){
 							break;
 						}
 						if (jeu[k][j] == couleurJoueur && prise ){
-							prise = false ;
+							break;
+						}
+						if (jeu[k][j] == TypeCase.jouable && !prise ){
 							break;
 						}
 						k++;
 					}
+					prise = false ;
 					k = i ;
 					// test coup vers le haut
 					//while(k-1 < jeu.length && k-1 >=0 && jeu[k-1][j] != couleurJoueur ) {
@@ -184,20 +188,21 @@ public class EtatReversi extends Etat {
 								k++;
 							}
 							successeur(tmp,p);
-							prise = false ;
 							break;
 
 						}
-						if (jeu[k][j] == TypeCase.vide && !prise){
-							prise = false ;
+						if (jeu[k][j] == TypeCase.vide){
 							break;
 						}
 						if (jeu[k][j] == couleurJoueur && prise ){
-							prise = false ;
+							break;
+						}
+						if (jeu[k][j] == TypeCase.jouable && !prise ){
 							break;
 						}
 						k--;
 					}
+					prise = false ;
 					k = i ;
 					w = j;
 					// test coup vers le haut a gauche
@@ -222,21 +227,22 @@ public class EtatReversi extends Etat {
 								w++;
 							}
 							successeur(tmp,p);
-							prise = false ;
 							break;
 
 						}
-						if (jeu[k][w] == TypeCase.vide && !prise){
-							prise = false ;
+						if (jeu[k][w] == TypeCase.vide){
 							break;
 						}
 						if (jeu[k][w] == couleurJoueur && prise ){
-							prise = false ;
+							break;
+						}
+						if (jeu[k][w] == TypeCase.jouable && !prise ){
 							break;
 						}
 						k--;
 						w--;
 					}
+					prise = false ;
 					k = i ;
 					w = j;
 					// test coup vers le haut a droite
@@ -261,20 +267,21 @@ public class EtatReversi extends Etat {
 								w--;
 							}
 							successeur(tmp,p);
-							prise = false ;
 							break;
 						}
-						if (jeu[k][w] == TypeCase.vide && !prise){
-							prise = false ;
+						if (jeu[k][w] == TypeCase.vide){
 							break;
 						}
 						if (jeu[k][w] == couleurJoueur && prise ){
-							prise = false ;
+							break;
+						}
+						if (jeu[k][w] == TypeCase.jouable && !prise ){
 							break;
 						}
 						k--;
 						w++;
 					}
+					prise = false ;
 					k = i ;
 					w = j;
 					// test coup vers le bas  a gauche
@@ -299,20 +306,21 @@ public class EtatReversi extends Etat {
 								w++;
 							}
 							successeur(tmp,p);
-							prise = false ;
 							break;
 						}
-						if (jeu[k][w] == TypeCase.vide && !prise){
-							prise = false ;
+						if (jeu[k][w] == TypeCase.vide){
 							break;
 						}
 						if (jeu[k][w] == couleurJoueur && prise ){
-							prise = false ;
+							break;
+						}
+						if (jeu[k][w] == TypeCase.jouable && !prise ){
 							break;
 						}
 						k++;
 						w--;
 					}
+					prise = false ;
 					k = i ;
 					w = j;
 					// test coup vers le bas  a droite
@@ -337,20 +345,21 @@ public class EtatReversi extends Etat {
 								w--;
 							}
 							successeur(tmp,p);
-							prise = false ;
 							break;
 						}
-						if (jeu[k][w] == TypeCase.vide && !prise){
-							prise = false ;
+						if (jeu[k][w] == TypeCase.vide ){
 							break;
 						}
 						if (jeu[k][w] == couleurJoueur && prise ){
-							prise = false ;
+							break;
+						}
+						if (jeu[k][w] == TypeCase.jouable && !prise ){
 							break;
 						}
 						k++;
 						w++;
 					}
+					prise = false ;
 				}
 			}
 		}
