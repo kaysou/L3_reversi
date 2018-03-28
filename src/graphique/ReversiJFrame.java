@@ -57,7 +57,6 @@ public class ReversiJFrame extends JFrame implements Observer {
 	    
 	    panJoueur = new JPanel();
 	    panJoueur.add(new JLabel(jeu.getCourant().getCouleurJoueur() == Color.BLACK ? "Joueur courant : noir ": "Joueur courant : blanc" ));
-	    
 	    this.setLayout(new BorderLayout());
 	    
 	    pan.setLayout(grid);
@@ -80,6 +79,7 @@ public class ReversiJFrame extends JFrame implements Observer {
 
 
 	    this.panJoueur = new JPanel();
+	    
 	    panJoueur.add(new JLabel(courant.getCourant().getCouleurJoueur() == Color.BLACK ? "Joueur courant : noir ": "Joueur courant : blanc" ));
 	   
 	    

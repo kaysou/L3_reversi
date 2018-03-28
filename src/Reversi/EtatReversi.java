@@ -21,9 +21,7 @@ public class EtatReversi extends Etat {
 		}else {
 			this.jeu = game.getJeu() ;
 		}
-
-		this.joueurCourant = game.getCourant();
-		this.joueurAdv =joueurCourant == game.getJ1() ? game.getJ2() : game.getJ1();
+		
 		this.successeur = new HashMap<>();
 	}
 	
@@ -429,6 +427,7 @@ public class EtatReversi extends Etat {
 
 	public void setJoueurCourant(JoueurReversi joueurCourant) {
 		this.joueurCourant = joueurCourant;
+		this.joueurAdv = joueurCourant == game.getJ1() ? game.getJ2() : game.getJ1();
 	}
 
 	public JoueurReversi getJoueurAdv() {

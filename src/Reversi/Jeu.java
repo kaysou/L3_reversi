@@ -2,7 +2,6 @@ package Reversi;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Observable;
 
@@ -18,8 +17,6 @@ public class Jeu extends Observable {
 	private TypeCase[][] jeuInit;
 	private JoueurReversi j1 = new JoueurReversi(Color.BLACK);
 	private JoueurReversi j2 =  new JoueurReversi(Color.WHITE);
-	
-	private JoueurReversi courant;
 	
 	private int taillePlateau;
 	
@@ -49,13 +46,14 @@ public class Jeu extends Observable {
 		this.jeuInit[(taille/2)-1][taille/2] = TypeCase.noir ;
 		
 		// les jetons blancs commencent
-		courant = j1;
+		 j1.setMachine(true);
+
 		
 		etat = new EtatReversi(this);
-		
+		etat.setJoueurCourant(j1);
 		etat.caseJouable();
-		
-		if(this.j1.isMachine()) {
+
+		if(this.getCourant().isMachine()) {
 			jouer(-1,-1);
 		}
 		firstLaunch = false;
@@ -78,39 +76,73 @@ public class Jeu extends Observable {
 
 	
 	public void jouer(int x, int y) {
+		System.out.println("joueur " + this.getCourant().getTc());
+		
+		System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBB etat avant machine \n " +afficherPlateau(getJeu()));
+		
+		if(this.getCourant().isMachine() || (x == -1 && y == -1)) {
+			EtatReversi tmp = minimax(this.etat,4);
+			System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA etat après machine \n " );
+			
+			System.out.println(afficherPlateau(tmp.getJeu()));
+			//this.setCourant( this.getCourant() == j1 ? j2 : j1 );
+			
+			//this.setEtat(tmp);
+		}else {
+			this.setCourant( this.getCourant() == j1 ? j2 : j1 );
+			
+			HashMap<PointPerso, EtatReversi> test = etat.getSuccesseur();
 
-		if(this.getCourant().isMachine()) {
+			this.setEtat(test.get(new PointPerso(x,y)));
+			
 			
 		}
 		
-		this.courant = this.courant == j1 ? j2 : j1 ;
-
-		HashMap<PointPerso, EtatReversi> test = etat.getSuccesseur();
-
-		this.setEtat(test.get(new PointPerso(x,y)));
-
 		etat.caseJouable();
+		
 		if(isBloque()) {
-			System.out.println("Joueur " + this.courant.getTc() + " bloque");
-			this.courant = this.courant == j1 ? j2 : j1 ;
-			EtatReversi res = new EtatReversi(this);
-
-			this.setEtat(res);
-			etat.caseJouable();
-
-			setChanged();
-			notifyObservers();
-
-			if (isBloque()){
-				System.out.println("Joueur " + this.courant.getTc() + " bloque");
+			if(isFinal()) {
+				System.out.println("Joueur couleur " + this.getCourant().getTc() + " bloque");
 				System.out.println("Fin de la partie");
 			}
-
 		}
+		
 		setChanged();
 		notifyObservers();
+		//System.out.println(afficherPlateau(getJeu()));
+		if(etat.getJoueurAdv().isMachine()) {
+			jouer(-1,-1);
+		}
 	}
 	
+	public boolean isFinal() {
+		//System.out.println("Joueur " + this.courant.getTc() + " bloque");
+		this.setCourant(this.getCourant() == j1 ? j2 : j1) ;
+		EtatReversi res = new EtatReversi(this);
+
+		this.setEtat(res);
+		//System.out.println(res.getJoueurAdv());
+		etat.caseJouable();
+
+		setChanged();
+		notifyObservers();
+
+		if (isBloque()){
+			int i = evalutationFinPartie(this.etat);
+			if(i==0) {
+				System.out.println("Egalité");
+			}
+			if(i > 1) {
+				System.out.println(this.getCourant().getCouleurJoueur() + " à gagné !");
+			}
+			if(i < -1) {
+				System.out.println(this.getCourant().getCouleurJoueur() + " à perdu !");
+			}
+			return true;
+		}
+		
+		return false;
+	}
 	/**
 	 * Algorithme minimax qui va chercher quel est l'état le plus probable de faire gagner
 	 * Utilise la fonction éval donc -> eval0 définie, cette méthode à un grand impact sur la chance de gagner
@@ -153,10 +185,12 @@ public class Jeu extends Observable {
 		EtatReversi current;
 		int score, score_min,score_max = 0 ;
 		
-		// si current est final -> pas de successeur ?
-		// return -infini si perdu, +infini gagné, 0 match nul
-		// fsi
-		
+		if(isBloque()) {
+			if(isFinal()) {
+				return evalutationFinPartie(etat);
+			}
+		}
+
 		if(prof == 0) {
 			return eval0(etat);
 		}
@@ -194,6 +228,30 @@ public class Jeu extends Observable {
 			}
 		}
 		return p1;
+	}
+	
+	public int evalutationFinPartie(EtatReversi e) {
+		int p1 = 0;
+		int p2 = 0;
+		for(int i = 0 ; i < e.getJeu().length ; i++) {
+			for(int j = 0 ; j < e.getJeu().length ; j++) {
+				if(this.getJeu()[i][j] == e.getJoueurCourant().getTc()) {
+					p1++;
+				}else {
+					if(this.getJeu()[i][j] == e.getJoueurAdv().getTc()) {
+						p2++;
+						}
+					}
+			}
+		}
+		if(p1==p2) {
+			return 0;
+		}
+		if(p1>p2) {
+			return Integer.MAX_VALUE;
+		}else {
+			return Integer.MIN_VALUE;
+		}
 	}
    // getter - setter 
 	
@@ -239,11 +297,11 @@ public class Jeu extends Observable {
 
 
 	public JoueurReversi getCourant() {
-		return courant;
+		return this.etat.getJoueurCourant();
 	}
 
 	public void setCourant(JoueurReversi courant) {
-		this.courant = courant;
+		this.etat.setJoueurCourant(courant);
 	}
 
 	public void setTaillePlateau(int taillePlateau) {
@@ -268,7 +326,6 @@ public class Jeu extends Observable {
 	
 	public void setEtat(EtatReversi e) {
 		this.setJeu(e.getJeu());
-		this.etat = e;
 	}
 
 	public boolean isBloque() {
