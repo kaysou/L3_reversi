@@ -55,7 +55,7 @@ public class Jeu extends Observable {
 		
 		etat.caseJouable();
 		
-		if(this.courant.isMachine()) {
+		if(this.j1.isMachine()) {
 			jouer(-1,-1);
 		}
 		firstLaunch = false;
@@ -154,23 +154,6 @@ public class Jeu extends Observable {
 		int score, score_min,score_max = 0 ;
 		
 		// si current est final -> pas de successeur ?
-		if(etat.getSuccesseur() == null) {
-			System.out.println("etat final");
-			
-			int p1 = 0;
-			int p2 = 0;
-			for(int i = 0 ; i < etat.getJeu().length ; i++) {
-				for(int j = 0 ; j < etat.getJeu().length ; j++) {
-					if(this.getJeu()[i][j] == etat.getJoueurCourant().getTc()) {
-						p1++;
-					}else {
-						p2++;
-					}
-				}
-			}
-			int res = p1 > p2 ? Integer.MAX_VALUE : Integer.MIN_VALUE;
-			return res ;
-		}
 		// return -infini si perdu, +infini gagné, 0 match nul
 		// fsi
 		
