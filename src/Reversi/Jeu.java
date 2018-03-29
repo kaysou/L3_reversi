@@ -47,12 +47,13 @@ public class Jeu extends Observable {
 		
 		// les jetons blancs commencent
 		 j1.setMachine(true);
-
 		
 		etat = new EtatReversi(this);
 		etat.setJoueurCourant(j1);
+		etat.setJoueurAdv(j2);
 		etat.caseJouable();
-
+		setChanged();
+		notifyObservers();
 		if(this.getCourant().isMachine()) {
 			jouer(-1,-1);
 		}
@@ -78,28 +79,31 @@ public class Jeu extends Observable {
 	public void jouer(int x, int y) {
 		System.out.println("joueur " + this.getCourant().getTc());
 		
-		System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBB etat avant machine \n " +afficherPlateau(getJeu()));
+		//System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBB etat avant machine \n " +afficherPlateau(getJeu()));
 		
 		if(this.getCourant().isMachine() || (x == -1 && y == -1)) {
 			EtatReversi tmp = minimax(this.etat,4);
-			System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA etat après machine \n " );
+			//System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA etat après machine \n " );
 			
-			System.out.println(afficherPlateau(tmp.getJeu()));
-			//this.setCourant( this.getCourant() == j1 ? j2 : j1 );
+			//System.out.println(afficherPlateau(tmp.getJeu()));
+			this.setCourant( this.getCourant() == j1 ? j2 : j1 );
 			
-			//this.setEtat(tmp);
+			this.setEtat(tmp);
+			etat.caseJouable();
 		}else {
+			System.out.println(" joueur humain vient de jouer en " +  x + "    " + y);
 			this.setCourant( this.getCourant() == j1 ? j2 : j1 );
 			
 			HashMap<PointPerso, EtatReversi> test = etat.getSuccesseur();
 
 			this.setEtat(test.get(new PointPerso(x,y)));
-			
-			
+			etat.caseJouable();
+
 		}
-		
-		etat.caseJouable();
-		
+
+		setChanged();
+		notifyObservers();
+
 		if(isBloque()) {
 			if(isFinal()) {
 				System.out.println("Joueur couleur " + this.getCourant().getTc() + " bloque");
@@ -110,9 +114,9 @@ public class Jeu extends Observable {
 		setChanged();
 		notifyObservers();
 		//System.out.println(afficherPlateau(getJeu()));
-		if(etat.getJoueurAdv().isMachine()) {
+		/*if(etat.getJoueurCourant().isMachine()) {
 			jouer(-1,-1);
-		}
+		}*/
 	}
 	
 	public boolean isFinal() {
@@ -164,9 +168,9 @@ public class Jeu extends Observable {
 		etat_sortie = this.etat;
 		
 		for(EtatReversi etat : etats) {
-			score = eval(prof, dep);
+			score = eval(prof, etat);
 			if(score >= score_max) {
-				etat_sortie = dep;
+				etat_sortie = etat;
 				score_max = score;
 			}
 		}
@@ -302,6 +306,8 @@ public class Jeu extends Observable {
 
 	public void setCourant(JoueurReversi courant) {
 		this.etat.setJoueurCourant(courant);
+		setChanged();
+		notifyObservers();
 	}
 
 	public void setTaillePlateau(int taillePlateau) {
@@ -326,6 +332,8 @@ public class Jeu extends Observable {
 	
 	public void setEtat(EtatReversi e) {
 		this.setJeu(e.getJeu());
+		setChanged();
+		notifyObservers();
 	}
 
 	public boolean isBloque() {
