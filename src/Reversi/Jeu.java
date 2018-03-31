@@ -8,7 +8,6 @@ import java.util.Observable;
 import graphique.TypeCase;
 
 /**
- * 
  * Class jeu
  * contient un tableau de String qui correspond au plateau de jeu
  * contient des joueurs 
@@ -17,13 +16,13 @@ public class Jeu extends Observable {
 	private TypeCase[][] jeuInit;
 	private JoueurReversi j1 = new JoueurReversi(Color.BLACK);
 	private JoueurReversi j2 =  new JoueurReversi(Color.WHITE);
-	
+
 	private int taillePlateau;
-	
+
 	private EtatReversi etat;
 	public boolean firstLaunch = true;
-	
-	
+
+
 	/**
 	 * Constructeur de jeu qui remplit le plateau a vide sauf les 4 pions de départ
 	 * @param taille, taille du plateau a générer 
@@ -31,7 +30,7 @@ public class Jeu extends Observable {
 	public Jeu(int taille) {
 		this.jeuInit = new TypeCase[taille][taille] ;
 		this.taillePlateau = taille ;
-		
+
 		for(int i = 0 ; i < taille ; i++) {
 			for(int j = 0 ; j < taille ; j++) {
 				jeuInit[i][j] = TypeCase.vide ;
@@ -44,14 +43,15 @@ public class Jeu extends Observable {
 		// pions noir
 		this.jeuInit[taille/2][(taille/2)-1] = TypeCase.noir ;
 		this.jeuInit[(taille/2)-1][taille/2] = TypeCase.noir ;
-		
+
 		// les jetons blancs commencent
-		 j1.setMachine(true);
-		
+		j1.setMachine(true);
+
 		etat = new EtatReversi(this);
 		etat.setJoueurCourant(j1);
 		etat.setJoueurAdv(j2);
 		etat.caseJouable();
+
 		setChanged();
 		notifyObservers();
 		if(this.getCourant().isMachine()) {
@@ -65,7 +65,7 @@ public class Jeu extends Observable {
 	 */
 	public String afficherPlateau(TypeCase[][] game) {
 		String plateau = "";
-		
+
 		for(TypeCase[] s1 : game) {
 			for(TypeCase s2 : s1) {
 				plateau += s2 + " ";
@@ -75,25 +75,25 @@ public class Jeu extends Observable {
 		return "plateau du jeu [ \n" + plateau + " ]";
 	}
 
-	
+
 	public void jouer(int x, int y) {
-		System.out.println("joueur " + this.getCourant().getTc());
-		
-		//System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBB etat avant machine \n " +afficherPlateau(getJeu()));
-		
+		System.out.println("joueur courant qui joue " + this.getCourant().getTc());
+
+
 		if(this.getCourant().isMachine() || (x == -1 && y == -1)) {
-			EtatReversi tmp = minimax(this.etat,4);
-			//System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA etat après machine \n " );
-			
-			//System.out.println(afficherPlateau(tmp.getJeu()));
-			this.setCourant( this.getCourant() == j1 ? j2 : j1 );
-			
+
+
+			EtatReversi tmp = minimax(this.etat,0);
+
+			this.setCourant(this.getCourant() == j1 ? j2 : j1 );
+
 			this.setEtat(tmp);
 			etat.caseJouable();
+
 		}else {
 			System.out.println(" joueur humain vient de jouer en " +  x + "    " + y);
-			this.setCourant( this.getCourant() == j1 ? j2 : j1 );
-			
+			this.setCourant(this.getCourant() == j1 ? j2 : j1 );
+
 			HashMap<PointPerso, EtatReversi> test = etat.getSuccesseur();
 
 			this.setEtat(test.get(new PointPerso(x,y)));
@@ -110,22 +110,22 @@ public class Jeu extends Observable {
 				System.out.println("Fin de la partie");
 			}
 		}
-		
+
 		setChanged();
 		notifyObservers();
-		//System.out.println(afficherPlateau(getJeu()));
-		/*if(etat.getJoueurCourant().isMachine()) {
+		
+		if(etat.getJoueurCourant().isMachine()) {
 			jouer(-1,-1);
-		}*/
+		}
 	}
-	
+
 	public boolean isFinal() {
-		//System.out.println("Joueur " + this.courant.getTc() + " bloque");
+
 		this.setCourant(this.getCourant() == j1 ? j2 : j1) ;
 		EtatReversi res = new EtatReversi(this);
 
 		this.setEtat(res);
-		//System.out.println(res.getJoueurAdv());
+
 		etat.caseJouable();
 
 		setChanged();
@@ -144,7 +144,7 @@ public class Jeu extends Observable {
 			}
 			return true;
 		}
-		
+
 		return false;
 	}
 	/**
@@ -156,27 +156,34 @@ public class Jeu extends Observable {
 	 */
 	public EtatReversi minimax(EtatReversi dep,int prof) {
 		// Variables
+		System.out.println("joueur minimax : " + dep.getJoueurCourant().getTc());
 		ArrayList<EtatReversi> etats = new ArrayList<>();
 		int score_max =  Integer.MIN_VALUE;
 		int score = 0 ;
 		EtatReversi etat_sortie;
-		
+
 		for (EtatReversi e : dep.getSuccesseur().values()) {
-			etats.add(e);
+			if(dep.getJoueurCourant().getTc() != e.getJoueurCourant().getTc()) {
+
+				etats.add(e);
+			}
 		}
 
 		etat_sortie = this.etat;
-		
-		for(EtatReversi etat : etats) {
-			score = eval(prof, etat);
+
+		for(EtatReversi et : etats) {
+			score = eval(prof, et);
+				
+			System.out.println("évalutation du score : " + score + " " + score_max);
 			if(score >= score_max) {
-				etat_sortie = etat;
+				etat_sortie = et;
 				score_max = score;
 			}
 		}
+
 		return etat_sortie;
 	}
-	
+
 	/**
 	 * Méthode qui évalue la pertinence d'un état à une profondeur donnée
 	 * @param prof, profondeur testée
@@ -188,35 +195,39 @@ public class Jeu extends Observable {
 		ArrayList<EtatReversi> etats = new ArrayList<>();
 		EtatReversi current;
 		int score, score_min,score_max = 0 ;
-		
+
+
 		if(isBloque()) {
-			if(isFinal()) {
+			if(isFinal()) {			
 				return evalutationFinPartie(etat);
 			}
 		}
 
 		if(prof == 0) {
+			//System.out.println( " score du successeurs " + eval0(etat));
 			return eval0(etat);
 		}
-		
+
 		if(etat.getJoueurCourant().isMachine()) {
 			score_max = Integer.MIN_VALUE ;
-			
+
 			for(EtatReversi e : etats) {
+				System.out.println("eval a " + (prof-1));
 				score_max = Integer.max(score_max,eval(prof-1,e));
 			}
 			return score_max;
 		}else {
 			score_min = Integer.MAX_VALUE;
-			
+
 			for(EtatReversi e : etats) {
-				score_min = Integer.min(score_max,eval(prof-1,e));
+				System.out.println("eval a min de " + (prof-1));
+				score_min = Integer.min(score_min,eval(prof-1,e));
 			}
 			return score_min;
-			
+
 		}		
 	}
-	
+
 	/**
 	 * Premiere méthode eval0 qui compte juste le nombre de pions de la couleur du joueur qui joue
 	 * @param e
@@ -226,14 +237,14 @@ public class Jeu extends Observable {
 		int p1 = 0;
 		for(int i = 0 ; i < e.getJeu().length ; i++) {
 			for(int j = 0 ; j < e.getJeu().length ; j++) {
-				if(this.getJeu()[i][j] == e.getJoueurCourant().getTc()) {
+				if(this.getJeu()[i][j] == e.getJoueurAdv().getTc()) {
 					p1++;
 				}
 			}
 		}
 		return p1;
 	}
-	
+
 	public int evalutationFinPartie(EtatReversi e) {
 		int p1 = 0;
 		int p2 = 0;
@@ -244,8 +255,8 @@ public class Jeu extends Observable {
 				}else {
 					if(this.getJeu()[i][j] == e.getJoueurAdv().getTc()) {
 						p2++;
-						}
 					}
+				}
 			}
 		}
 		if(p1==p2) {
@@ -257,12 +268,12 @@ public class Jeu extends Observable {
 			return Integer.MIN_VALUE;
 		}
 	}
-   // getter - setter 
-	
+	// getter - setter 
+
 	public TypeCase[][] getJeu() {
 		return this.etat.getJeu();
 	}
-	
+
 	public TypeCase[][] getJeuInit() {
 		return this.jeuInit;
 	}
@@ -313,13 +324,13 @@ public class Jeu extends Observable {
 	public void setTaillePlateau(int taillePlateau) {
 		this.taillePlateau = taillePlateau;
 	}
-	
+
 	public void setCase(int i, int j, TypeCase newType) {
 		this.getJeu()[i][j] = newType;
 		setChanged();
 		notifyObservers();
 	}
-	
+
 	public void enleverCaseJouable() {
 		for(int i = 0 ; i < taillePlateau ; i++) {
 			for(int j = 0 ; j < taillePlateau ; j++) {
@@ -329,9 +340,10 @@ public class Jeu extends Observable {
 			}
 		}
 	}
-	
+
 	public void setEtat(EtatReversi e) {
 		this.setJeu(e.getJeu());
+		this.etat = e;
 		setChanged();
 		notifyObservers();
 	}
@@ -347,6 +359,6 @@ public class Jeu extends Observable {
 			}
 		}
 		return cpt==0;
-		
+
 	}
 }
