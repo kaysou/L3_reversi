@@ -77,13 +77,10 @@ public class Jeu extends Observable {
 
 
 	public void jouer(int x, int y) {
-		System.out.println("joueur courant qui joue " + this.getCourant().getTc());
-
-
 		if(this.getCourant().isMachine() || (x == -1 && y == -1)) {
 
 
-			EtatReversi tmp = minimax(this.etat,0);
+			EtatReversi tmp = minimax(this.etat,2);
 
 			this.setCourant(this.getCourant() == j1 ? j2 : j1 );
 
@@ -91,7 +88,7 @@ public class Jeu extends Observable {
 			etat.caseJouable();
 
 		}else {
-			System.out.println(" joueur humain vient de jouer en " +  x + "    " + y);
+
 			this.setCourant(this.getCourant() == j1 ? j2 : j1 );
 
 			HashMap<PointPerso, EtatReversi> test = etat.getSuccesseur();
@@ -156,7 +153,6 @@ public class Jeu extends Observable {
 	 */
 	public EtatReversi minimax(EtatReversi dep,int prof) {
 		// Variables
-		System.out.println("joueur minimax : " + dep.getJoueurCourant().getTc());
 		ArrayList<EtatReversi> etats = new ArrayList<>();
 		int score_max =  Integer.MIN_VALUE;
 		int score = 0 ;
@@ -174,7 +170,6 @@ public class Jeu extends Observable {
 		for(EtatReversi et : etats) {
 			score = eval(prof, et);
 				
-			System.out.println("évalutation du score : " + score + " " + score_max);
 			if(score >= score_max) {
 				etat_sortie = et;
 				score_max = score;
@@ -204,15 +199,13 @@ public class Jeu extends Observable {
 		}
 
 		if(prof == 0) {
-			//System.out.println( " score du successeurs " + eval0(etat));
-			return eval0(etat);
+			return eval0Upraged(etat);
 		}
 
 		if(etat.getJoueurCourant().isMachine()) {
 			score_max = Integer.MIN_VALUE ;
 
 			for(EtatReversi e : etats) {
-				System.out.println("eval a " + (prof-1));
 				score_max = Integer.max(score_max,eval(prof-1,e));
 			}
 			return score_max;
@@ -220,7 +213,6 @@ public class Jeu extends Observable {
 			score_min = Integer.MAX_VALUE;
 
 			for(EtatReversi e : etats) {
-				System.out.println("eval a min de " + (prof-1));
 				score_min = Integer.min(score_min,eval(prof-1,e));
 			}
 			return score_min;
@@ -238,6 +230,29 @@ public class Jeu extends Observable {
 		for(int i = 0 ; i < e.getJeu().length ; i++) {
 			for(int j = 0 ; j < e.getJeu().length ; j++) {
 				if(this.getJeu()[i][j] == e.getJoueurAdv().getTc()) {
+					p1++;
+				}
+			}
+		}
+		return p1;
+	}
+	
+	/**
+	 * Premiere méthode eval0 qui compte juste le nombre de pions de la couleur du joueur qui joue
+	 * @param e
+	 * @return
+	 */
+	public int eval0Upraged(EtatReversi e) {
+		int p1 = 0;
+		for(int i = 0 ; i < e.getJeu().length ; i++) {
+			for(int j = 0 ; j < e.getJeu().length ; j++) {
+				if(this.getJeu()[i][j] == e.getJoueurAdv().getTc()) {
+					if(i == 0 || i == taillePlateau-1) {
+						p1 += 5 ;
+					}
+					if(j == 0 || j == taillePlateau -1) {
+						p1 += 5 ;
+					}
 					p1++;
 				}
 			}
@@ -342,8 +357,9 @@ public class Jeu extends Observable {
 	}
 
 	public void setEtat(EtatReversi e) {
-		this.setJeu(e.getJeu());
 		this.etat = e;
+		this.setJeu(e.getJeu());
+
 		setChanged();
 		notifyObservers();
 	}
