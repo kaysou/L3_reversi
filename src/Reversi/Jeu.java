@@ -238,7 +238,7 @@ public class Jeu extends Observable {
 	}
 	
 	/**
-	 * Premiere méthode eval0 qui compte juste le nombre de pions de la couleur du joueur qui joue
+	 * Premiere méthode eval0 qui favorise les coups dans les coins et sur les cotés
 	 * @param e
 	 * @return
 	 */
@@ -248,13 +248,31 @@ public class Jeu extends Observable {
 			for(int j = 0 ; j < e.getJeu().length ; j++) {
 				if(this.getJeu()[i][j] == e.getJoueurAdv().getTc()) {
 					if(i == 0 || i == taillePlateau-1) {
-						p1 += 5 ;
-					}
-					if(j == 0 || j == taillePlateau -1) {
-						p1 += 5 ;
+						if(j == 0 || j == taillePlateau -1) {
+							p1 += 50 ;
+						}else {
+							p1 += 5;
+						}						
 					}
 					p1++;
 				}
+			}
+		}
+		return p1;
+	}
+	
+	/**
+	 * Premiere méthode eval0 qui ?
+	 * @param e
+	 * @return
+	 */
+	public int eval0Upragedv2(EtatReversi e) {
+		int p1 = 0;
+		for(int i = 0 ; i < e.getJeu().length ; i++) {
+			for(int j = 0 ; j < e.getJeu().length ; j++) {
+				/**if(this.getJeu()[i][j] == TypeCase.jouable) {
+					
+				}**/
 			}
 		}
 		return p1;
