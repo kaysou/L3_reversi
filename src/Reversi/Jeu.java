@@ -21,7 +21,7 @@ public class Jeu extends Observable {
 
 	private EtatReversi etat;
 	public boolean firstLaunch = true;
-
+	public boolean partieFini = false;
 
 	/**
 	 * Constructeur de jeu qui remplit le plateau a vide sauf les 4 pions de départ
@@ -45,9 +45,9 @@ public class Jeu extends Observable {
 		this.jeuInit[(taille/2)-1][taille/2] = TypeCase.noir ;
 
 		// les jetons blancs commencent
-		j1.setMachine(true);
+		//j1.setMachine(true);
 
-		etat = new EtatReversi(this);
+		etat = new Reversi.EtatReversi(this);
 		etat.setJoueurCourant(j1);
 		etat.setJoueurAdv(j2);
 		etat.caseJouable();
@@ -110,9 +110,10 @@ public class Jeu extends Observable {
 
 		setChanged();
 		notifyObservers();
-		
-		if(etat.getJoueurCourant().isMachine()) {
-			jouer(-1,-1);
+		if (!partieFini) {
+			if (etat.getJoueurCourant().isMachine()) {
+				jouer(-1, -1);
+			}
 		}
 	}
 
@@ -120,7 +121,9 @@ public class Jeu extends Observable {
 
 		this.setCourant(this.getCourant() == j1 ? j2 : j1) ;
 		EtatReversi res = new EtatReversi(this);
-
+		res.setJoueurCourant(this.getCourant());
+		res.setJoueurAdv(this.getCourant() == j1 ? j2 : j1 );
+		System.out.println(res.getJoueurCourant() + " ______ " + this.getCourant() );
 		this.setEtat(res);
 
 		etat.caseJouable();
@@ -129,6 +132,8 @@ public class Jeu extends Observable {
 		notifyObservers();
 
 		if (isBloque()){
+			System.out.println("la partie est fini enculé");
+			partieFini = true;
 			int i = evalutationFinPartie(this.etat);
 			if(i==0) {
 				System.out.println("Egalité");
