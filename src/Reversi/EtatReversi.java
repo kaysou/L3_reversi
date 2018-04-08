@@ -65,12 +65,13 @@ public class EtatReversi extends Etat {
 						// si on a sauté un pion ennemi et qu'il y a une case vide derrière
 						if((prise && jeu[i][k] == TypeCase.vide )|| (prise && jeu[i][k] == TypeCase.jouable )) {
 							p = new PointPerso(i,k);
+
 							if(jeu[i][k] == TypeCase.vide){
 								tmp = cloneJeu(jeuInitial);
 								jeu[i][k] = TypeCase.jouable;
 							}else{
 								EtatReversi tmp2 = successeur.get(p);
-								//System.out.println(p);
+
 								tmp = tmp2.getJeu();
 								
 							}
