@@ -18,7 +18,7 @@ public class Jeu extends Observable {
 	private JoueurReversi j1 = new JoueurReversi(Color.BLACK);
 	private JoueurReversi j2 =  new JoueurReversi(Color.WHITE);
 
-	private int taillePlateau;
+	private static int taillePlateau;
 
 	private EtatReversi etat;
 	public boolean firstLaunch = true;
@@ -64,7 +64,7 @@ public class Jeu extends Observable {
 	/**
 	 * Methode d'affichage du jeu
 	 */
-	public String afficherPlateau(TypeCase[][] game) {
+	public static String afficherPlateau(TypeCase[][] game) {
 		String plateau = "";
 
 		for(TypeCase[] s1 : game) {
@@ -81,8 +81,8 @@ public class Jeu extends Observable {
 		if(this.getCourant().isMachine() || (x == -1 && y == -1)) {
 
 
-			//EtatReversi tmp = minimaxElagage(this.etat,4, Integer.MIN_VALUE, Integer.MAX_VALUE);
-			EtatReversi tmp = minimax(this.etat,4);
+			//EtatReversi tmp = minimaxElagage(this.etat,3, Integer.MIN_VALUE, Integer.MAX_VALUE);
+			EtatReversi tmp = minimax(this.etat,3);
 			this.setCourant(this.getCourant() == j1 ? j2 : j1 );
 
 			this.setEtat(tmp);
@@ -129,13 +129,12 @@ public class Jeu extends Observable {
 
 		this.setEtat(res);
 
-			res.caseJouable();
+		res.caseJouable();
 
-			setChanged();
-			notifyObservers();
+		setChanged();
+		notifyObservers();
 
 		if (isBloque()){
-			System.out.println("la partie est fini enculé");
 			partieFini = true;
 			int i = evalutationFinPartie(res);
 			if(i==0) {
@@ -178,7 +177,7 @@ public class Jeu extends Observable {
 
 		for(EtatReversi et : etats) {
 			score = eval(prof, et);
-				
+
 			if(score >= score_max) {
 				etat_sortie = et;
 				score_max = score;
@@ -213,8 +212,8 @@ public class Jeu extends Observable {
 		etat_sortie = this.etat;
 
 		for(EtatReversi et : etats) {
-			score = eval(prof, et);
-				
+			score = evalElagage(prof, et, alpha, beta);
+
 			if(score >= score_max) {
 				etat_sortie = et;
 				score_max = score;
@@ -223,7 +222,7 @@ public class Jeu extends Observable {
 
 		return etat_sortie;
 	}
-	
+
 	/**
 	 * Méthode qui évalue la pertinence d'un état à une profondeur donnée avec l'elagage alpha beta
 	 * @param prof, profondeur testée
@@ -235,16 +234,20 @@ public class Jeu extends Observable {
 		ArrayList<EtatReversi> etats = new ArrayList<>();
 		EtatReversi current;
 		int score, score_min,score_max = 0 ;
+		enleverCaseJouable(etat);
 
-
+		etat.caseJouable();
+		// etats pas rempli mais bug si on le remplit ??
+		for(Map.Entry<PointPerso, EtatReversi> entry : etat.getSuccesseur().entrySet()) {
+			etats.add(entry.getValue());
+		}
 		if(isBloque()) {
 			if(isFinal()) {			
 				return evalutationFinPartie(etat);
 			}
 		}
-
 		if(prof == 0) {
-			return eval0Upraged(etat);
+			return eval0(etat);
 		}
 
 		if(etat.getJoueurCourant().isMachine()) {
@@ -273,7 +276,7 @@ public class Jeu extends Observable {
 		}		
 	}
 
-	
+
 	/**
 	 * Méthode qui évalue la pertinence d'un état à une profondeur donnée
 	 * @param prof, profondeur testée
@@ -285,11 +288,12 @@ public class Jeu extends Observable {
 		ArrayList<EtatReversi> etats = new ArrayList<>();
 		EtatReversi current;
 		int score, score_min,score_max = 0 ;
+		enleverCaseJouable(etat);
 
 		etat.caseJouable();
 		// etats pas rempli mais bug si on le remplit ??
 		for(Map.Entry<PointPerso, EtatReversi> entry : etat.getSuccesseur().entrySet()) {
-		//	etats.add(entry.getValue());
+			etats.add(entry.getValue());
 		}
 		if(isBloque()) {
 			if(isFinal()) {			
@@ -298,7 +302,7 @@ public class Jeu extends Observable {
 		}
 
 		if(prof == 0) {
-			return eval0Upraged(etat);
+			return eval0(etat);
 		}
 
 		if(etat.getJoueurCourant().isMachine()) {
@@ -307,6 +311,7 @@ public class Jeu extends Observable {
 			for(EtatReversi e : etats) {
 				score_max = Integer.max(score_max,eval(prof-1,e));
 			}
+			etats = new ArrayList<>();
 			return score_max;
 		}else {
 			score_min = Integer.MAX_VALUE;
@@ -314,6 +319,7 @@ public class Jeu extends Observable {
 			for(EtatReversi e : etats) {
 				score_min = Integer.min(score_min,eval(prof-1,e));
 			}
+			etats = new ArrayList<>();
 			return score_min;
 
 		}		
@@ -335,7 +341,7 @@ public class Jeu extends Observable {
 		}
 		return p1;
 	}
-	
+
 	/**
 	 * Premiere méthode eval0 qui favorise les coups dans les coins et sur les cotés
 	 * @param e
@@ -359,7 +365,7 @@ public class Jeu extends Observable {
 		}
 		return p1;
 	}
-	
+
 	/**
 	 * Premiere méthode eval0 qui ?
 	 * @param e
@@ -370,7 +376,7 @@ public class Jeu extends Observable {
 		for(int i = 0 ; i < e.getJeu().length ; i++) {
 			for(int j = 0 ; j < e.getJeu().length ; j++) {
 				/**if(this.getJeu()[i][j] == TypeCase.jouable) {
-					
+
 				}**/
 			}
 		}
@@ -401,6 +407,16 @@ public class Jeu extends Observable {
 		}
 	}
 	// getter - setter 
+
+	public static void enleverCaseJouable( EtatReversi etat) {
+		for(int i = 0 ; i < taillePlateau ; i++) {
+			for(int j = 0 ; j < taillePlateau ; j++) {
+				if(etat.getJeu()[i][j] == TypeCase.jouable ) {
+					etat.getJeu()[i][j] = TypeCase.vide ;
+				}
+			}
+		}
+	}
 
 	public TypeCase[][] getJeu() {
 		return this.etat.getJeu();

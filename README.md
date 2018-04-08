@@ -57,9 +57,9 @@ Séance 4:
 	- IA contre IA et IA contre joueur fonctionnel
 	
 Sans elagage :
-	-minimax met entre 10 et 125 microseconds en profondeur 4
+	-minimax met 1658 maximum ms en profondeur 3
 Avec elagage :
-	-minimax avec elagage met entre 7 et 60 microsecondes pour la profondeur 4
+	-minimax avec elagage met 1337 ms maximum pour la profondeur 3
 	
 	
 Difficultés rencontrés :

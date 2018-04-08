@@ -71,7 +71,6 @@ public class EtatReversi extends Etat {
 								jeu[i][k] = TypeCase.jouable;
 							}else{
 								EtatReversi tmp2 = successeur.get(p);
-
 								tmp = tmp2.getJeu();
 								
 							}
