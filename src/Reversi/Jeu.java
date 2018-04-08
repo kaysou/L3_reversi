@@ -80,8 +80,8 @@ public class Jeu extends Observable {
 		if(this.getCourant().isMachine() || (x == -1 && y == -1)) {
 
 
-			EtatReversi tmp = minimax(this.etat,2);
-
+			//EtatReversi tmp = minimaxElagage(this.etat,4, Integer.MIN_VALUE, Integer.MAX_VALUE);
+			EtatReversi tmp = minimax(this.etat,4);
 			this.setCourant(this.getCourant() == j1 ? j2 : j1 );
 
 			this.setEtat(tmp);
@@ -187,6 +187,94 @@ public class Jeu extends Observable {
 		return etat_sortie;
 	}
 
+	/**
+	 * Algorithme minimax qui va chercher quel est l'état le plus probable de faire gagner avec elagage alpha beta
+	 * Utilise la fonction éval donc -> eval0 définie, cette méthode à un grand impact sur la chance de gagner
+	 * @param dep
+	 * @param prof
+	 * @return
+	 */
+	public EtatReversi minimaxElagage(EtatReversi dep,int prof, int alpha, int beta) {
+		long startTime = System.nanoTime();
+		// Variables
+		ArrayList<EtatReversi> etats = new ArrayList<>();
+		int score_max =  Integer.MIN_VALUE;
+		int score = 0 ;
+		EtatReversi etat_sortie;
+
+		for (EtatReversi e : dep.getSuccesseur().values()) {
+			if(dep.getJoueurCourant().getTc() != e.getJoueurCourant().getTc()) {
+
+				etats.add(e);
+			}
+		}
+
+		etat_sortie = this.etat;
+
+		for(EtatReversi et : etats) {
+			score = eval(prof, et);
+				
+			if(score >= score_max) {
+				etat_sortie = et;
+				score_max = score;
+			}
+		}
+		long endTime = System.nanoTime();
+
+		System.out.println((endTime - startTime) /1000 );  //microseconds
+		return etat_sortie;
+	}
+	
+	/**
+	 * Méthode qui évalue la pertinence d'un état à une profondeur donnée avec l'elagage alpha beta
+	 * @param prof, profondeur testée
+	 * @param etat, état de départ
+	 * @return
+	 */
+	public int evalElagage(int prof, EtatReversi etat, int alpha, int beta) {
+		// variables
+		ArrayList<EtatReversi> etats = new ArrayList<>();
+		EtatReversi current;
+		int score, score_min,score_max = 0 ;
+
+
+		if(isBloque()) {
+			if(isFinal()) {			
+				return evalutationFinPartie(etat);
+			}
+		}
+
+		if(prof == 0) {
+			return eval0Upraged(etat);
+		}
+
+		if(etat.getJoueurCourant().isMachine()) {
+			score_max = Integer.MIN_VALUE ;
+
+			for(EtatReversi e : etats) {
+				score_max = Integer.max(score_max,evalElagage(prof-1,e, alpha, beta));
+				if(score_max >= beta ) {
+					return score_max;
+				}
+				alpha = Integer.max(alpha,score_max);
+			}
+			return score_max;
+		}else {
+			score_min = Integer.MAX_VALUE;
+
+			for(EtatReversi e : etats) {
+				score_min = Integer.min(score_min,evalElagage(prof-1,e, alpha,beta));
+				if(score_min <= alpha) {
+					return score_min;
+				}
+				beta = Integer.min(beta, score_min);
+			}
+			return score_min;
+
+		}		
+	}
+
+	
 	/**
 	 * Méthode qui évalue la pertinence d'un état à une profondeur donnée
 	 * @param prof, profondeur testée
