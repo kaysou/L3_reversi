@@ -3,6 +3,7 @@ package Reversi;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Observable;
 
 import graphique.TypeCase;
@@ -285,7 +286,11 @@ public class Jeu extends Observable {
 		EtatReversi current;
 		int score, score_min,score_max = 0 ;
 
-
+		etat.caseJouable();
+		// etats pas rempli mais bug si on le remplit ??
+		for(Map.Entry<PointPerso, EtatReversi> entry : etat.getSuccesseur().entrySet()) {
+		//	etats.add(entry.getValue());
+		}
 		if(isBloque()) {
 			if(isFinal()) {			
 				return evalutationFinPartie(etat);
