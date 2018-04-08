@@ -69,7 +69,10 @@ public class EtatReversi extends Etat {
 								tmp = cloneJeu(jeuInitial);
 								jeu[i][k] = TypeCase.jouable;
 							}else{
-								tmp = successeur.get(p).getJeu();
+								EtatReversi tmp2 = successeur.get(p);
+								//System.out.println(p);
+								tmp = tmp2.getJeu();
+								
 							}
 								  while ( k <= j){
 								  tmp[i][k] = couleurJoueur;

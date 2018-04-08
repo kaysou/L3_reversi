@@ -45,8 +45,8 @@ public class Jeu extends Observable {
 		this.jeuInit[(taille/2)-1][taille/2] = TypeCase.noir ;
 
 		// les jetons blancs commencent
-		//j1.setMachine(true);
-
+		j1.setMachine(true);
+		//j2.setMachine(true);
 		etat = new Reversi.EtatReversi(this);
 		etat.setJoueurCourant(j1);
 		etat.setJoueurAdv(j2);
@@ -123,10 +123,10 @@ public class Jeu extends Observable {
 		EtatReversi res = new EtatReversi(this);
 		res.setJoueurCourant(this.getCourant());
 		res.setJoueurAdv(this.getCourant() == j1 ? j2 : j1 );
-		System.out.println(res.getJoueurCourant() + " ______ " + this.getCourant() );
+		System.out.println("courant : "  + res.getJoueurCourant().getTc() + " ______ " + res.getJoueurAdv().getTc() );
 		this.setEtat(res);
 
-		etat.caseJouable();
+		res.caseJouable();
 
 		setChanged();
 		notifyObservers();
@@ -134,7 +134,7 @@ public class Jeu extends Observable {
 		if (isBloque()){
 			System.out.println("la partie est fini enculé");
 			partieFini = true;
-			int i = evalutationFinPartie(this.etat);
+			int i = evalutationFinPartie(res);
 			if(i==0) {
 				System.out.println("Egalité");
 			}
@@ -157,6 +157,7 @@ public class Jeu extends Observable {
 	 * @return
 	 */
 	public EtatReversi minimax(EtatReversi dep,int prof) {
+		long startTime = System.nanoTime();
 		// Variables
 		ArrayList<EtatReversi> etats = new ArrayList<>();
 		int score_max =  Integer.MIN_VALUE;
@@ -180,7 +181,9 @@ public class Jeu extends Observable {
 				score_max = score;
 			}
 		}
+		long endTime = System.nanoTime();
 
+		System.out.println((endTime - startTime) /1000 );  //microseconds
 		return etat_sortie;
 	}
 
